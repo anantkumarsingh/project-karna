@@ -74,3 +74,10 @@ class PaperRead(PaperBase):
     id: str
     uploaded_at: datetime
     extraction_completed_at: datetime | None = None
+
+
+class PaperDependents(CamelModel):
+    research_question_count: int
+    artifact_count: int
+    report_count: int
+    analysis_count: int

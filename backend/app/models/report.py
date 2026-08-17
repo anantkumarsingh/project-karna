@@ -10,7 +10,9 @@ class Report(Base):
     # One report per research question (mirrors the frontend's QuestionReportData,
     # which is keyed 1:1 by questionId) — the question's own id doubles as this row's id.
     question_id: Mapped[str] = mapped_column(ForeignKey("research_questions.id"), primary_key=True)
-    paper_id: Mapped[str] = mapped_column(ForeignKey("papers.id"), nullable=False, index=True)
+    # Nullable (Session 11 cont.) — a deleted paper nulls this out rather than
+    # deleting the report, so it becomes independent instead of dangling.
+    paper_id: Mapped[str | None] = mapped_column(ForeignKey("papers.id"), nullable=True, index=True)
 
     status: Mapped[str] = mapped_column(String, nullable=False, default="not_started")
 

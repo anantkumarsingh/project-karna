@@ -6,10 +6,24 @@ from sqlalchemy.orm import Session
 
 from app.api.routes._crud import make_crud_router
 from app.db.session import get_db
+from app.models.artifact import Artifact
+from app.models.analysis import Analysis
 from app.models.paper import Paper
-from app.schemas.paper import PaperCreate, PaperRead, PaperUpdate
+from app.models.report import Report
+from app.models.research_question import ResearchQuestion
+from app.schemas.paper import PaperCreate, PaperDependents, PaperRead, PaperUpdate
 from app.services.metadata_extraction import extract_pdf_metadata
 from app.services.storage import compute_content_hash, paper_upload_path, save_encrypted, to_relative
+
+
+def _null_paper_dependents(db: Session, paper: Paper) -> None:
+    """Runs just before a Paper row is deleted — nulls the paper_id on every
+    dependent so it becomes independent (no longer tied to any paper) instead
+    of left dangling or cascade-deleted."""
+    db.query(ResearchQuestion).filter(ResearchQuestion.paper_id == paper.id).update({"paper_id": None})
+    db.query(Artifact).filter(Artifact.paper_id == paper.id).update({"paper_id": None})
+    db.query(Report).filter(Report.paper_id == paper.id).update({"paper_id": None})
+
 
 router = make_crud_router(
     model=Paper,
@@ -20,9 +34,21 @@ router = make_crud_router(
     tags=["papers"],
     auto_timestamp_fields=("uploaded_at",),
     has_project_id=True,
+    before_delete=_null_paper_dependents,
 )
 
 _SENSITIVITY_LEVELS = ("public", "restricted", "no_ai")
+
+
+@router.get("/{paper_id}/dependents", response_model=PaperDependents)
+def get_paper_dependents(paper_id: str, db: Session = Depends(get_db)):
+    rq_ids = [row[0] for row in db.query(ResearchQuestion.id).filter(ResearchQuestion.paper_id == paper_id)]
+    return PaperDependents(
+        research_question_count=len(rq_ids),
+        artifact_count=db.query(Artifact).filter(Artifact.paper_id == paper_id).count(),
+        report_count=db.query(Report).filter(Report.paper_id == paper_id).count(),
+        analysis_count=db.query(Analysis).filter(Analysis.research_question_id.in_(rq_ids)).count() if rq_ids else 0,
+    )
 
 
 @router.post("/upload", response_model=PaperRead, status_code=201)

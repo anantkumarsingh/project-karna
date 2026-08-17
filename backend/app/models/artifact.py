@@ -14,7 +14,9 @@ class Artifact(Base):
     # on the same way every other entity is — added Session 9 cont., replacing
     # an earlier client-side join-by-paperId approach used on the Dashboard.
     project_id: Mapped[str] = mapped_column(ForeignKey("projects.id"), nullable=False, index=True)
-    paper_id: Mapped[str] = mapped_column(ForeignKey("papers.id"), nullable=False, index=True)
+    # Nullable (Session 11 cont.) — a deleted paper nulls this out rather than
+    # deleting the artifact, so it becomes independent instead of dangling.
+    paper_id: Mapped[str | None] = mapped_column(ForeignKey("papers.id"), nullable=True, index=True)
     question_id: Mapped[str] = mapped_column(ForeignKey("research_questions.id"), nullable=False, index=True)
     analysis_id: Mapped[str | None] = mapped_column(ForeignKey("analyses.id"), nullable=True, index=True)
 

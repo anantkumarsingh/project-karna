@@ -39,10 +39,12 @@ import {
   Star,
   Send,
   Search,
+  Trash2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InfoCard, PlainCard, CompactPanel } from "@/components/layout/InfoCard"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog"
 import { SENSITIVITY_OPTIONS } from "@/lib/sensitivity"
 import {
   type ExtractedPaper,
@@ -901,6 +903,10 @@ export default function PapersPage() {
   const [sensitivityLevel, setSensitivityLevel] = useState<SensitivityLevel>("restricted")
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<ExtractedPaper | null>(null)
+  const [deleteWarnings, setDeleteWarnings] = useState<string[]>([])
+  const [loadingDeleteWarnings, setLoadingDeleteWarnings] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const selectedPaper = papers.find((p) => p.id === selected)
 
   useEffect(() => {
@@ -962,6 +968,51 @@ export default function PapersPage() {
       setUploadError(err instanceof ApiError ? err.message : "Something went wrong — please try again.")
     } finally {
       setUploading(false)
+    }
+  }
+
+  async function openDeleteDialog(paper: ExtractedPaper) {
+    setDeleteTarget(paper)
+    setDeleteWarnings([])
+    setLoadingDeleteWarnings(true)
+    try {
+      const d = await api.papers.dependents(paper.id)
+      const lines: string[] = []
+      if (d.researchQuestionCount > 0) {
+        lines.push(`${d.researchQuestionCount} research question${d.researchQuestionCount === 1 ? "" : "s"} linked to this paper will become independent (no longer tied to any paper).`)
+      }
+      if (d.analysisCount > 0) {
+        lines.push(`${d.analysisCount} ${d.analysisCount === 1 ? "analysis" : "analyses"} under those research questions will remain, but the question${d.researchQuestionCount === 1 ? "" : "s"} they're linked to will no longer reference a paper.`)
+      }
+      if (d.artifactCount > 0) {
+        lines.push(`${d.artifactCount} artifact${d.artifactCount === 1 ? "" : "s"} (figures/tables) linked to this paper will become independent.`)
+      }
+      if (d.reportCount > 0) {
+        lines.push(`${d.reportCount} report${d.reportCount === 1 ? "" : "s"} linked to this paper will become independent.`)
+      }
+      setDeleteWarnings(lines)
+    } catch {
+      setDeleteWarnings([])
+    } finally {
+      setLoadingDeleteWarnings(false)
+    }
+  }
+
+  async function handleConfirmDelete() {
+    if (!deleteTarget) return
+    setDeleting(true)
+    try {
+      await api.papers.remove(deleteTarget.id)
+      setPapers((prev) => {
+        const next = prev.filter((p) => p.id !== deleteTarget.id)
+        if (selected === deleteTarget.id) {
+          setSelected(next[0]?.id ?? "")
+        }
+        return next
+      })
+      setDeleteTarget(null)
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -1054,38 +1105,56 @@ export default function PapersPage() {
           </DialogContent>
         </Dialog>
 
+        <DeleteConfirmDialog
+          open={deleteTarget !== null}
+          onOpenChange={(open) => !open && setDeleteTarget(null)}
+          itemLabel={deleteTarget?.title ?? ""}
+          warningLines={deleteWarnings}
+          loadingWarnings={loadingDeleteWarnings}
+          onConfirm={handleConfirmDelete}
+          deleting={deleting}
+        />
+
         <ScrollArea className="flex-1 min-h-0">
           <div className="px-3 py-3 space-y-1">
             {loading && <p className="text-xs text-gray-400 px-2 py-2">Loading papers…</p>}
             {papers.map((paper) => (
-              <button
+              <div
                 key={paper.id}
-                onClick={() => setSelected(paper.id)}
                 className={cn(
-                  "w-full text-left px-3 py-3 rounded-lg transition-colors group border",
+                  "group w-full rounded-lg transition-colors border flex items-start",
                   selected === paper.id
                     ? "bg-violet-50/60 border-[#635BFF]/25 shadow-[0_2px_8px_-2px_rgba(99,91,255,0.18)]"
                     : "hover:bg-gray-50 border-transparent"
                 )}
               >
-                <div className="flex items-start gap-2">
-                  <PaperStatusIcon status={paper.status} />
-                  <div className="flex-1 min-w-0">
-                    <p className={cn(
-                      "text-xs leading-snug line-clamp-2",
-                      selected === paper.id ? "text-gray-900 font-medium" : "text-gray-600"
-                    )}>
-                      {paper.title}
-                    </p>
-                    <p className="text-[10px] text-gray-400 mt-1">
-                      {paper.year} &middot; {paper.pageCount} pp
-                    </p>
-                    <div className="mt-1.5">
-                      <LibraryStatusBadge status={paper.libraryStatus} />
+                <button onClick={() => setSelected(paper.id)} className="flex-1 min-w-0 text-left px-3 py-3">
+                  <div className="flex items-start gap-2">
+                    <PaperStatusIcon status={paper.status} />
+                    <div className="flex-1 min-w-0">
+                      <p className={cn(
+                        "text-xs leading-snug line-clamp-2",
+                        selected === paper.id ? "text-gray-900 font-medium" : "text-gray-600"
+                      )}>
+                        {paper.title}
+                      </p>
+                      <p className="text-[10px] text-gray-400 mt-1">
+                        {paper.year} &middot; {paper.pageCount} pp
+                      </p>
+                      <div className="mt-1.5">
+                        <LibraryStatusBadge status={paper.libraryStatus} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </button>
+                </button>
+                <button
+                  onClick={() => openDeleteDialog(paper)}
+                  className="shrink-0 p-1 mt-3 mr-2 opacity-0 group-hover:opacity-100 hover:text-rose-600 text-gray-300"
+                  title="Delete paper"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             ))}
           </div>
         </ScrollArea>

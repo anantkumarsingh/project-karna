@@ -7,9 +7,17 @@ from sqlalchemy.orm import Session
 from app.api.routes._crud import make_crud_router
 from app.db.session import get_db
 from app.models.dataset import Dataset
-from app.schemas.dataset import DatasetCreate, DatasetRead, DatasetUpdate
+from app.schemas.dataset import DatasetCreate, DatasetDependents, DatasetRead, DatasetUpdate
 from app.services.metadata_extraction import extract_tabular_metadata
 from app.services.storage import compute_content_hash, dataset_upload_path, save_encrypted, to_relative
+
+
+def _null_dataset_dependents(db: Session, dataset: Dataset) -> None:
+    """Runs just before a Dataset row is deleted — nulls derived_from on any
+    dataset version derived from this one, so it becomes independent instead
+    of left pointing at a deleted row."""
+    db.query(Dataset).filter(Dataset.derived_from == dataset.id).update({"derived_from": None})
+
 
 router = make_crud_router(
     model=Dataset,
@@ -20,9 +28,17 @@ router = make_crud_router(
     tags=["datasets"],
     auto_timestamp_fields=("uploaded_at",),
     has_project_id=True,
+    before_delete=_null_dataset_dependents,
 )
 
 _SENSITIVITY_LEVELS = ("public", "restricted", "no_ai")
+
+
+@router.get("/{dataset_id}/dependents", response_model=DatasetDependents)
+def get_dataset_dependents(dataset_id: str, db: Session = Depends(get_db)):
+    return DatasetDependents(
+        derived_version_count=db.query(Dataset).filter(Dataset.derived_from == dataset_id).count(),
+    )
 
 
 @router.post("/upload", response_model=DatasetRead, status_code=201)

@@ -60,3 +60,7 @@ class DatasetUpdate(DatasetBase):
 class DatasetRead(DatasetBase):
     id: str
     uploaded_at: datetime
+
+
+class DatasetDependents(CamelModel):
+    derived_version_count: int

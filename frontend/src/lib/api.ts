@@ -7,6 +7,17 @@ import type { Artifact } from "@/lib/dummy-visualizations"
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api"
 
+export interface PaperDependents {
+  researchQuestionCount: number
+  artifactCount: number
+  reportCount: number
+  analysisCount: number
+}
+
+export interface DatasetDependents {
+  derivedVersionCount: number
+}
+
 export interface RulebookEntryApi {
   id: string
   projectId: string
@@ -75,8 +86,16 @@ async function apiUpload<T>(path: string, formData: FormData): Promise<T> {
 
 export const api = {
   projects: makeCrud<Project>("projects"),
-  papers: { ...makeCrud<ExtractedPaper>("papers"), upload: (formData: FormData) => apiUpload<ExtractedPaper>("/papers/upload", formData) },
-  datasets: { ...makeCrud<ProfiledDataset>("datasets"), upload: (formData: FormData) => apiUpload<ProfiledDataset>("/datasets/upload", formData) },
+  papers: {
+    ...makeCrud<ExtractedPaper>("papers"),
+    upload: (formData: FormData) => apiUpload<ExtractedPaper>("/papers/upload", formData),
+    dependents: (id: string) => apiFetch<PaperDependents>(`/papers/${id}/dependents`),
+  },
+  datasets: {
+    ...makeCrud<ProfiledDataset>("datasets"),
+    upload: (formData: FormData) => apiUpload<ProfiledDataset>("/datasets/upload", formData),
+    dependents: (id: string) => apiFetch<DatasetDependents>(`/datasets/${id}/dependents`),
+  },
   researchQuestions: makeCrud<ResearchQuestionDetail>("research-questions"),
   analyses: makeCrud<ExecutedAnalysis>("analyses"),
   artifacts: makeCrud<Artifact>("artifacts"),

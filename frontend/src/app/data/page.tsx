@@ -36,10 +36,12 @@ import {
   Hash,
   GitCommitHorizontal,
   ShieldQuestion,
+  Trash2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InfoCard, PlainCard, CompactPanel } from "@/components/layout/InfoCard"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog"
 import { SENSITIVITY_OPTIONS } from "@/lib/sensitivity"
 import {
   type ProfiledDataset,
@@ -981,6 +983,10 @@ export default function DataUnderstandingPage() {
   const [sensitivityLevel, setSensitivityLevel] = useState<SensitivityLevel>("restricted")
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<ProfiledDataset | null>(null)
+  const [deleteWarnings, setDeleteWarnings] = useState<string[]>([])
+  const [loadingDeleteWarnings, setLoadingDeleteWarnings] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const selectedDataset = datasets.find((d) => d.id === selected)
 
   useEffect(() => {
@@ -1042,6 +1048,43 @@ export default function DataUnderstandingPage() {
       setUploadError(err instanceof ApiError ? err.message : "Something went wrong — please try again.")
     } finally {
       setUploading(false)
+    }
+  }
+
+  async function openDeleteDialog(dataset: ProfiledDataset) {
+    setDeleteTarget(dataset)
+    setDeleteWarnings([])
+    setLoadingDeleteWarnings(true)
+    try {
+      const d = await api.datasets.dependents(dataset.id)
+      const lines: string[] = []
+      if (d.derivedVersionCount > 0) {
+        lines.push(`${d.derivedVersionCount} dataset version${d.derivedVersionCount === 1 ? "" : "s"} derived from this one will lose that reference and become independent.`)
+      }
+      lines.push("Karna doesn't yet track which analyses or research questions were built using a specific dataset — review those manually if this dataset was used anywhere.")
+      setDeleteWarnings(lines)
+    } catch {
+      setDeleteWarnings([])
+    } finally {
+      setLoadingDeleteWarnings(false)
+    }
+  }
+
+  async function handleConfirmDelete() {
+    if (!deleteTarget) return
+    setDeleting(true)
+    try {
+      await api.datasets.remove(deleteTarget.id)
+      setDatasets((prev) => {
+        const next = prev.filter((d) => d.id !== deleteTarget.id)
+        if (selected === deleteTarget.id) {
+          setSelected(next[0]?.id ?? "")
+        }
+        return next
+      })
+      setDeleteTarget(null)
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -1127,38 +1170,56 @@ export default function DataUnderstandingPage() {
           </DialogContent>
         </Dialog>
 
+        <DeleteConfirmDialog
+          open={deleteTarget !== null}
+          onOpenChange={(open) => !open && setDeleteTarget(null)}
+          itemLabel={deleteTarget?.filename ?? ""}
+          warningLines={deleteWarnings}
+          loadingWarnings={loadingDeleteWarnings}
+          onConfirm={handleConfirmDelete}
+          deleting={deleting}
+        />
+
         <ScrollArea className="flex-1 min-h-0">
           <div className="px-3 py-3 space-y-1">
             {loading && <p className="text-xs text-gray-400 px-2 py-2">Loading datasets…</p>}
             {datasets.map((dataset) => (
-              <button
+              <div
                 key={dataset.id}
-                onClick={() => setSelected(dataset.id)}
                 className={cn(
-                  "w-full text-left px-3 py-3 rounded-lg transition-colors group border",
+                  "group w-full rounded-lg transition-colors border flex items-start",
                   selected === dataset.id
                     ? "bg-violet-50/60 border-[#635BFF]/25 shadow-[0_2px_8px_-2px_rgba(99,91,255,0.18)]"
                     : "hover:bg-gray-50 border-transparent"
                 )}
               >
-                <div className="flex items-start gap-2">
-                  <DatasetStatusIcon status={dataset.status} />
-                  <div className="flex-1 min-w-0">
-                    <p className={cn(
-                      "text-xs leading-snug line-clamp-2 font-mono",
-                      selected === dataset.id ? "text-gray-900 font-medium" : "text-gray-600"
-                    )}>
-                      {dataset.filename}
-                    </p>
-                    <p className="text-[10px] text-gray-400 mt-1">
-                      {dataset.version}{dataset.derivedFrom ? " · derived" : ""}
-                    </p>
-                    <div className="mt-1.5">
-                      <LibraryStatusBadge status={dataset.libraryStatus} />
+                <button onClick={() => setSelected(dataset.id)} className="flex-1 min-w-0 text-left px-3 py-3">
+                  <div className="flex items-start gap-2">
+                    <DatasetStatusIcon status={dataset.status} />
+                    <div className="flex-1 min-w-0">
+                      <p className={cn(
+                        "text-xs leading-snug line-clamp-2 font-mono",
+                        selected === dataset.id ? "text-gray-900 font-medium" : "text-gray-600"
+                      )}>
+                        {dataset.filename}
+                      </p>
+                      <p className="text-[10px] text-gray-400 mt-1">
+                        {dataset.version}{dataset.derivedFrom ? " · derived" : ""}
+                      </p>
+                      <div className="mt-1.5">
+                        <LibraryStatusBadge status={dataset.libraryStatus} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </button>
+                </button>
+                <button
+                  onClick={() => openDeleteDialog(dataset)}
+                  className="shrink-0 p-1 mt-3 mr-2 opacity-0 group-hover:opacity-100 hover:text-rose-600 text-gray-300"
+                  title="Delete dataset"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             ))}
           </div>
         </ScrollArea>

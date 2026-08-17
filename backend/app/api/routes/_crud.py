@@ -22,6 +22,7 @@ def make_crud_router(
     touch_on_update_fields: tuple[str, ...] = (),
     has_project_id: bool = False,
     project_filter: Callable[[Session, SAQuery, str], SAQuery] | None = None,
+    before_delete: Callable[[Session, Any], None] | None = None,
 ) -> APIRouter:
     """Builds the standard list/get/create/update/delete endpoints for one entity.
 
@@ -34,6 +35,11 @@ def make_crud_router(
     match — needed for entities like Analysis, where most rows only carry a
     research_question_id (project_id is a fallback-only column), so scoping by
     project has to join through the linked research question instead.
+
+    `before_delete` runs just before the row is removed — used by Paper/Dataset
+    to null out dependents' foreign keys (research questions, artifacts,
+    reports, derived dataset versions) so they become independent rather than
+    left dangling. `None` for every other entity, which has no dependents.
     """
     router = APIRouter(prefix=prefix, tags=tags)
 
@@ -88,6 +94,8 @@ def make_crud_router(
     @router.delete("/{item_id}", status_code=204)
     def delete_item(item_id: str, db: Session = Depends(get_db)):
         item = _get_or_404(db, item_id)
+        if before_delete:
+            before_delete(db, item)
         db.delete(item)
         db.commit()
         return None
