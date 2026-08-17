@@ -72,7 +72,7 @@ export interface ExtractedPaper {
   title: string
   authors: string
   journal: string
-  year: number
+  year?: number
   doi?: string
   pageCount: number
   uploadedAt: string

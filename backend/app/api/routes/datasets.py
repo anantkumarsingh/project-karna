@@ -59,6 +59,12 @@ async def upload_dataset(
         uploaded_at=datetime.now(UTC).replace(tzinfo=None),
         status="profiled",
         library_status="profiled",
+        total_missing_percent=metadata["total_missing_percent"],
+        duplicate_rows=metadata["duplicate_rows"],
+        missingness_risk=metadata["missingness_risk"],
+        data_quality_score=metadata["data_quality_score"],
+        variables=metadata["variables"],
+        quality_checks=metadata["quality_checks"],
     )
     db.add(item)
     db.commit()

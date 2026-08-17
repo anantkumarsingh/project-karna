@@ -112,6 +112,7 @@ const roleLabel: Record<VariableRole, string> = {
   date: "Date",
   text: "Text",
   ignore: "Ignore",
+  unassigned: "Not yet assigned",
 }
 
 function correlationColor(r: number) {

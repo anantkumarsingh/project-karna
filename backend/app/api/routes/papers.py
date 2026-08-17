@@ -45,16 +45,23 @@ async def upload_paper(
     path = paper_upload_path(project_id, paper_id, file.filename or "upload.pdf")
     save_encrypted(path, data)
 
+    found_metadata = bool(metadata.get("title") or metadata.get("authors") or metadata.get("doi"))
+    now = datetime.now(UTC).replace(tzinfo=None)
+
     item = Paper(
         id=paper_id,
         project_id=project_id,
-        title=file.filename or "Untitled paper",
+        title=metadata.get("title") or file.filename or "Untitled paper",
+        authors=metadata.get("authors") or "",
+        doi=metadata.get("doi"),
         page_count=metadata["page_count"],
         storage_path=to_relative(path),
         sensitivity_level=sensitivity_level,
-        uploaded_at=datetime.now(UTC).replace(tzinfo=None),
+        uploaded_at=now,
         status="processing",
-        library_status="processing",
+        library_status="needs_review" if found_metadata else "processing",
+        extraction_confidence="low" if found_metadata else None,
+        extraction_completed_at=now if found_metadata else None,
     )
     db.add(item)
     db.commit()

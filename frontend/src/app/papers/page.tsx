@@ -195,21 +195,34 @@ function MethodBlock({
 /* ---------------- Overview tab ---------------- */
 
 function OverviewTab({ paper }: { paper: ExtractedPaper }) {
+  const notYetExtracted = !paper.authors && !paper.journal
   return (
     <div className="space-y-4">
+      {notYetExtracted && (
+        <div className="flex items-start gap-2.5 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3">
+          <Clock className="w-4 h-4 text-sky-500 mt-0.5 shrink-0" />
+          <div className="text-xs text-sky-800 leading-relaxed">
+            <p className="font-medium">Uploaded — awaiting content extraction</p>
+            <p className="text-sky-700 mt-0.5">
+              Only deterministic metadata has been captured so far ({paper.pageCount} page{paper.pageCount === 1 ? "" : "s"}). Author, year,
+              journal, abstract, and methods require the AI agent system, which isn&apos;t built yet.
+            </p>
+          </div>
+        </div>
+      )}
       <InfoCard icon={FileText} iconColor="text-violet-600" title="Paper Identity">
         <div className="grid grid-cols-2 gap-x-8 gap-y-3">
           <div>
             <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Authors</p>
-            <p className="text-xs text-gray-700">{paper.authors}</p>
+            <p className="text-xs text-gray-700">{paper.authors || "—"}</p>
           </div>
           <div>
             <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Year</p>
-            <p className="text-xs text-gray-700">{paper.year}</p>
+            <p className="text-xs text-gray-700">{paper.year ?? "—"}</p>
           </div>
           <div>
             <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Journal</p>
-            <p className="text-xs text-gray-700 italic">{paper.journal}</p>
+            <p className="text-xs text-gray-700 italic">{paper.journal || "—"}</p>
           </div>
           <div>
             <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">DOI</p>
@@ -285,10 +298,14 @@ function OverviewTab({ paper }: { paper: ExtractedPaper }) {
       )}
 
       <div className="flex items-center gap-2">
-        {paper.status === "pending" ? (
-          <Button size="sm" className="text-white text-xs gap-1.5" style={{ backgroundColor: ACCENT }}>
+        {paper.status !== "processed" ? (
+          <button
+            disabled
+            title="Requires the agent system — coming in a later phase"
+            className="flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-lg border border-gray-200 text-gray-400 cursor-not-allowed"
+          >
             <Sparkles className="w-3.5 h-3.5" /> Extract Methods
-          </Button>
+          </button>
         ) : (
           <>
             <Link href="/question">

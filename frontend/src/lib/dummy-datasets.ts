@@ -15,6 +15,9 @@ export type VariableRole =
   | "date"
   | "text"
   | "ignore"
+  // Deterministic profiling can't infer a semantic role from statistics alone —
+  // this is the honest default until a human or B6's Stats/Planner Agent assigns one.
+  | "unassigned"
 
 export interface VariableDistribution {
   bins?: number[]
