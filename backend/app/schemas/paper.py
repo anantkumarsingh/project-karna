@@ -21,6 +21,7 @@ class PaperBase(CamelModel):
     methods_page_ref: str | None = None
     storage_path: str | None = None
     sensitivity_level: Literal["public", "restricted", "no_ai"] = "restricted"
+    content_hash: str | None = None
 
     abstract: str | None = None
     research_question: str | None = None

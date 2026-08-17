@@ -32,6 +32,7 @@ class Dataset(Base):
     storage_path: Mapped[str | None] = mapped_column(String, nullable=True)
     sensitivity_level: Mapped[str] = mapped_column(String, nullable=False, default="restricted")
     column_dtypes: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    content_hash: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
 
     summary: Mapped[str | None] = mapped_column(String, nullable=True)
     structure_type: Mapped[str | None] = mapped_column(String, nullable=True)

@@ -46,10 +46,11 @@ API docs (Swagger UI) are available at `localhost:8000/docs` while the backend i
 ## Current status
 
 - **Frontend:** all 7 tabs built end-to-end. Dashboard, Paper Understanding, and Data Understanding are wired to the live backend, including real file upload with real profiling results; Research Question Builder, Analysis Execution, Visualization Studio, and Report Builder are still on realistic placeholder data pending backend support.
-- **Backend:** core data models, migrations, and CRUD API are complete for all entities (Project, Paper, Dataset, Research Question, Analysis, Artifact, Report, Rulebook Entry). Real PDF/CSV/Excel upload is live, with deterministic metadata extraction and profiling (page count, per-column type/missingness/outliers/distributions, dataset quality score, best-effort paper title/authors/DOI), encryption at rest, and a per-item AI-sensitivity level. Deterministic analysis execution and the agent system are not yet built.
+- **Backend:** core data models, migrations, and CRUD API are complete for all entities (Project, Paper, Dataset, Research Question, Analysis, Artifact, Report, Rulebook Entry). Real PDF/CSV/Excel upload is live, with deterministic metadata extraction and profiling (page count, per-column type/missingness/outliers/distributions, dataset quality score, best-effort paper title/authors/DOI/year — sanity-filtered against garbage PDF metadata), duplicate-upload prevention, encryption at rest, and a per-item AI-sensitivity level. Deterministic analysis execution and the agent system are not yet built.
 - **Agent system:** not yet started.
 
 ## Recent updates
 
+- **2026-08-17** — Duplicate-upload prevention (same file blocked within a project), a sanity filter that rejects garbage PDF-embedded metadata instead of showing it, best-effort publication-year extraction, and a working DOI link (opens the real paper in a new tab).
 - **2026-08-17** — Deterministic (non-AI) content profiling for uploaded papers/datasets: real per-column type/missingness/outlier/distribution stats and a dataset quality score, plus best-effort paper title/authors/DOI extraction from PDF metadata — all before any AI agent exists.
 - **2026-08-16** — Real file upload for papers/datasets: deterministic metadata extraction (page count; row/column/dtype counts), encryption at rest, and a three-tier sensitivity level (public / restricted / do-not-send-to-AI) that governs what a future AI agent may see about an item. Public GitHub repo set up (monorepo).

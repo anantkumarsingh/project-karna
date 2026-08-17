@@ -22,6 +22,7 @@ class DatasetBase(CamelModel):
     storage_path: str | None = None
     sensitivity_level: Literal["public", "restricted", "no_ai"] = "restricted"
     column_dtypes: dict | None = None
+    content_hash: str | None = None
 
     summary: str | None = None
     structure_type: str | None = None

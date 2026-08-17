@@ -31,6 +31,7 @@ class Paper(Base):
     # agent prompt construction exists — not enforced by any code yet.
     storage_path: Mapped[str | None] = mapped_column(String, nullable=True)
     sensitivity_level: Mapped[str] = mapped_column(String, nullable=False, default="restricted")
+    content_hash: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
 
     abstract: Mapped[str | None] = mapped_column(String, nullable=True)
     research_question: Mapped[str | None] = mapped_column(String, nullable=True)

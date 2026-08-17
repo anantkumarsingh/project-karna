@@ -61,8 +61,14 @@ function makeCrud<TRead, TCreate = Partial<TRead>, TUpdate = Partial<TRead>>(res
 async function apiUpload<T>(path: string, formData: FormData): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, { method: "POST", body: formData })
   if (!res.ok) {
-    const detail = await res.text().catch(() => "")
-    throw new ApiError(res.status, `POST ${path} failed (${res.status}): ${detail}`)
+    let detail = ""
+    try {
+      const body = await res.json()
+      detail = typeof body?.detail === "string" ? body.detail : JSON.stringify(body)
+    } catch {
+      detail = await res.text().catch(() => "")
+    }
+    throw new ApiError(res.status, detail || `Upload failed (${res.status})`)
   }
   return (await res.json()) as T
 }

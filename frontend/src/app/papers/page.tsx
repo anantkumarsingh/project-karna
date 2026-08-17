@@ -53,7 +53,7 @@ import {
 } from "@/lib/dummy-papers"
 import type { ProfiledDataset } from "@/lib/dummy-datasets"
 import { useProject } from "@/components/layout/ProjectContext"
-import { api, type RulebookEntryApi } from "@/lib/api"
+import { api, ApiError, type RulebookEntryApi } from "@/lib/api"
 
 const ACCENT = "#635BFF"
 
@@ -227,7 +227,13 @@ function OverviewTab({ paper }: { paper: ExtractedPaper }) {
           <div>
             <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">DOI</p>
             {paper.doi ? (
-              <a href="#" className="text-xs flex items-center gap-1" style={{ color: ACCENT }}>
+              <a
+                href={`https://doi.org/${paper.doi}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs flex items-center gap-1"
+                style={{ color: ACCENT }}
+              >
                 {paper.doi} <ExternalLink className="w-2.5 h-2.5" />
               </a>
             ) : (
@@ -894,6 +900,7 @@ export default function PapersPage() {
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [sensitivityLevel, setSensitivityLevel] = useState<SensitivityLevel>("restricted")
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const selectedPaper = papers.find((p) => p.id === selected)
 
   useEffect(() => {
@@ -915,12 +922,14 @@ export default function PapersPage() {
     setDialogOption(option)
     setPendingFile(null)
     setSensitivityLevel("restricted")
+    setUploadError(null)
     setAddOpen(false)
   }
 
   async function handleConfirmAdd() {
     if (!dialogOption || !currentProjectId) return
     setUploading(true)
+    setUploadError(null)
     try {
       let created: ExtractedPaper
       if (dialogOption.key === "pdf") {
@@ -949,6 +958,8 @@ export default function PapersPage() {
       setPapers((prev) => [created, ...prev])
       setSelected(created.id)
       setDialogOption(null)
+    } catch (err) {
+      setUploadError(err instanceof ApiError ? err.message : "Something went wrong — please try again.")
     } finally {
       setUploading(false)
     }
@@ -1029,6 +1040,8 @@ export default function PapersPage() {
                 </label>
               ))}
             </div>
+
+            {uploadError && <p className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2">{uploadError}</p>}
 
             <DialogFooter>
               <Button

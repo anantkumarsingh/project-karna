@@ -50,7 +50,7 @@ import {
   type SensitivityLevel,
 } from "@/lib/dummy-datasets"
 import { useProject } from "@/components/layout/ProjectContext"
-import { api, type RulebookEntryApi } from "@/lib/api"
+import { api, ApiError, type RulebookEntryApi } from "@/lib/api"
 import type { ExecutedAnalysis } from "@/lib/dummy-analyses"
 
 const ACCENT = "#635BFF"
@@ -980,6 +980,7 @@ export default function DataUnderstandingPage() {
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [sensitivityLevel, setSensitivityLevel] = useState<SensitivityLevel>("restricted")
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const selectedDataset = datasets.find((d) => d.id === selected)
 
   useEffect(() => {
@@ -1001,12 +1002,14 @@ export default function DataUnderstandingPage() {
     setDialogOption(option)
     setPendingFile(null)
     setSensitivityLevel("restricted")
+    setUploadError(null)
     setAddOpen(false)
   }
 
   async function handleConfirmAdd() {
     if (!dialogOption || !currentProjectId) return
     setUploading(true)
+    setUploadError(null)
     try {
       let created: ProfiledDataset
       if (dialogOption.key === "upload") {
@@ -1035,6 +1038,8 @@ export default function DataUnderstandingPage() {
       setDatasets((prev) => [created, ...prev])
       setSelected(created.id)
       setDialogOption(null)
+    } catch (err) {
+      setUploadError(err instanceof ApiError ? err.message : "Something went wrong — please try again.")
     } finally {
       setUploading(false)
     }
@@ -1108,6 +1113,8 @@ export default function DataUnderstandingPage() {
                 </label>
               ))}
             </div>
+
+            {uploadError && <p className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2">{uploadError}</p>}
 
             <DialogFooter>
               <Button

@@ -2,6 +2,7 @@
 Paths are stored in the DB relative to research_workspace_dir so the workspace
 folder stays portable if it's ever moved.
 """
+import hashlib
 import os
 import tempfile
 from contextlib import contextmanager
@@ -10,6 +11,10 @@ from typing import Iterator
 
 from app.core.config import settings
 from app.services.encryption import decrypt_bytes, encrypt_bytes
+
+
+def compute_content_hash(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
 
 
 def _upload_path(project_id: str, kind: str, entity_id: str, original_filename: str) -> Path:

@@ -9,7 +9,7 @@ from app.db.session import get_db
 from app.models.dataset import Dataset
 from app.schemas.dataset import DatasetCreate, DatasetRead, DatasetUpdate
 from app.services.metadata_extraction import extract_tabular_metadata
-from app.services.storage import dataset_upload_path, save_encrypted, to_relative
+from app.services.storage import compute_content_hash, dataset_upload_path, save_encrypted, to_relative
 
 router = make_crud_router(
     model=Dataset,
@@ -37,6 +37,15 @@ async def upload_dataset(
 
     data = await file.read()
     filename = file.filename or "upload.csv"
+
+    content_hash = compute_content_hash(data)
+    existing = db.query(Dataset).filter(Dataset.project_id == project_id, Dataset.content_hash == content_hash).first()
+    if existing:
+        raise HTTPException(
+            status_code=409,
+            detail=f"This file was already uploaded as '{existing.filename}' (uploaded {existing.uploaded_at:%Y-%m-%d}).",
+        )
+
     try:
         metadata = extract_tabular_metadata(data, filename)
     except Exception as exc:
@@ -56,6 +65,7 @@ async def upload_dataset(
         file_size_kb=len(data) // 1024,
         storage_path=to_relative(path),
         sensitivity_level=sensitivity_level,
+        content_hash=content_hash,
         uploaded_at=datetime.now(UTC).replace(tzinfo=None),
         status="profiled",
         library_status="profiled",

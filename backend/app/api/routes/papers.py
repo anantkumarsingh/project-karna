@@ -9,7 +9,7 @@ from app.db.session import get_db
 from app.models.paper import Paper
 from app.schemas.paper import PaperCreate, PaperRead, PaperUpdate
 from app.services.metadata_extraction import extract_pdf_metadata
-from app.services.storage import paper_upload_path, save_encrypted, to_relative
+from app.services.storage import compute_content_hash, paper_upload_path, save_encrypted, to_relative
 
 router = make_crud_router(
     model=Paper,
@@ -36,6 +36,15 @@ async def upload_paper(
         raise HTTPException(status_code=400, detail=f"sensitivityLevel must be one of {_SENSITIVITY_LEVELS}")
 
     data = await file.read()
+
+    content_hash = compute_content_hash(data)
+    existing = db.query(Paper).filter(Paper.project_id == project_id, Paper.content_hash == content_hash).first()
+    if existing:
+        raise HTTPException(
+            status_code=409,
+            detail=f"This file was already uploaded as '{existing.title or existing.id}' (uploaded {existing.uploaded_at:%Y-%m-%d}).",
+        )
+
     try:
         metadata = extract_pdf_metadata(data)
     except Exception as exc:
@@ -45,7 +54,7 @@ async def upload_paper(
     path = paper_upload_path(project_id, paper_id, file.filename or "upload.pdf")
     save_encrypted(path, data)
 
-    found_metadata = bool(metadata.get("title") or metadata.get("authors") or metadata.get("doi"))
+    found_metadata = bool(metadata.get("title") or metadata.get("authors") or metadata.get("doi") or metadata.get("year"))
     now = datetime.now(UTC).replace(tzinfo=None)
 
     item = Paper(
@@ -54,9 +63,11 @@ async def upload_paper(
         title=metadata.get("title") or file.filename or "Untitled paper",
         authors=metadata.get("authors") or "",
         doi=metadata.get("doi"),
+        year=metadata.get("year"),
         page_count=metadata["page_count"],
         storage_path=to_relative(path),
         sensitivity_level=sensitivity_level,
+        content_hash=content_hash,
         uploaded_at=now,
         status="processing",
         library_status="needs_review" if found_metadata else "processing",
