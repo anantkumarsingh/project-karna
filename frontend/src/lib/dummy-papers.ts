@@ -64,6 +64,8 @@ export interface SuggestedQuestion {
   relatedActions: string[]
 }
 
+export type SensitivityLevel = "public" | "restricted" | "no_ai"
+
 export interface ExtractedPaper {
   id: string
   projectId: string
@@ -76,6 +78,8 @@ export interface ExtractedPaper {
   uploadedAt: string
   status: ExtractionStatus
   libraryStatus: LibraryStatus
+  storagePath?: string
+  sensitivityLevel: SensitivityLevel
   extractionCompletedAt?: string
   extractionConfidence?: "high" | "medium" | "low"
   methodsPageRef?: string
@@ -122,6 +126,7 @@ export const extractedPapers: ExtractedPaper[] = [
   {
     id: "paper_001",
     projectId: "project_001",
+    sensitivityLevel: "restricted",
     title: "Serum IL-6 as a Predictive Biomarker for Immunotherapy Response in NSCLC",
     authors: "Chen, X., Matsuda, R., Kim, J., Okafor, N., Patel, S.",
     journal: "Journal of Thoracic Oncology",
@@ -371,6 +376,7 @@ export const extractedPapers: ExtractedPaper[] = [
   {
     id: "paper_002",
     projectId: "project_001",
+    sensitivityLevel: "public",
     title: "Inflammatory Markers and Overall Survival in Advanced Lung Cancer: A Meta-Analysis",
     authors: "Hoffman, D., Patel, A., Ferreira, C., Nakamura, Y., et al.",
     journal: "The Lancet Oncology",
@@ -529,6 +535,7 @@ export const extractedPapers: ExtractedPaper[] = [
   {
     id: "paper_003",
     projectId: "project_001",
+    sensitivityLevel: "public",
     title: "Cox Proportional Hazards Models in Clinical Oncology Trials",
     authors: "Williams, P., Osei, K., Tanaka, M.",
     journal: "Statistics in Medicine",
@@ -543,6 +550,7 @@ export const extractedPapers: ExtractedPaper[] = [
   {
     id: "paper_101",
     projectId: "project_002",
+    sensitivityLevel: "restricted",
     title: "Depressive Symptom Severity and Glycemic Control in Adults with Type 2 Diabetes",
     authors: "Okonkwo, C., Reyes, M., Lindqvist, S.",
     journal: "Diabetes Care",

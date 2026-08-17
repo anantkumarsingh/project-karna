@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Literal
 
 from app.schemas._base import CamelModel
 
@@ -18,6 +19,9 @@ class DatasetBase(CamelModel):
     file_size_kb: int = 0
     patients: int | None = None
     timepoints: int | None = None
+    storage_path: str | None = None
+    sensitivity_level: Literal["public", "restricted", "no_ai"] = "restricted"
+    column_dtypes: dict | None = None
 
     summary: str | None = None
     structure_type: str | None = None

@@ -25,6 +25,13 @@ class Paper(Base):
     extraction_confidence: Mapped[str | None] = mapped_column(String, nullable=True)
     methods_page_ref: Mapped[str | None] = mapped_column(String, nullable=True)
 
+    # B2: file storage (relative to research_workspace_dir; None for non-file
+    # add-paths like DOI/PubMed) and the AI-exposure sensitivity tier chosen at
+    # upload time. Enforcement of sensitivity_level happens starting B4/B5 once
+    # agent prompt construction exists — not enforced by any code yet.
+    storage_path: Mapped[str | None] = mapped_column(String, nullable=True)
+    sensitivity_level: Mapped[str] = mapped_column(String, nullable=False, default="restricted")
+
     abstract: Mapped[str | None] = mapped_column(String, nullable=True)
     research_question: Mapped[str | None] = mapped_column(String, nullable=True)
     study_design: Mapped[str | None] = mapped_column(String, nullable=True)

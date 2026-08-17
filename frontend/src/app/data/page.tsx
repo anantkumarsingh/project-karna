@@ -39,12 +39,15 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InfoCard, PlainCard, CompactPanel } from "@/components/layout/InfoCard"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { SENSITIVITY_OPTIONS } from "@/lib/sensitivity"
 import {
   type ProfiledDataset,
   type VariableType,
   type VariableRole,
   type LibraryStatus,
   type QualityCheck,
+  type SensitivityLevel,
 } from "@/lib/dummy-datasets"
 import { useProject } from "@/components/layout/ProjectContext"
 import { api, type RulebookEntryApi } from "@/lib/api"
@@ -958,10 +961,10 @@ function DatasetDetail({ dataset }: { dataset: ProfiledDataset }) {
 /* ---------------- Page ---------------- */
 
 const addDatasetOptions = [
-  { key: "upload", label: "Upload file (CSV/Excel/SPSS)", icon: Upload },
+  { key: "upload", label: "Upload file (CSV/Excel)", icon: Upload },
   { key: "redcap", label: "Connect REDCap export", icon: FileSpreadsheet },
   { key: "id", label: "Add by dataset ID", icon: Hash },
-]
+] as const
 
 let draftCounter = 0
 
@@ -972,6 +975,10 @@ export default function DataUnderstandingPage() {
   const [selected, setSelected] = useState<string>("")
   const [addOpen, setAddOpen] = useState(false)
   const [askOpen, setAskOpen] = useState(false)
+  const [dialogOption, setDialogOption] = useState<(typeof addDatasetOptions)[number] | null>(null)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const [sensitivityLevel, setSensitivityLevel] = useState<SensitivityLevel>("restricted")
+  const [uploading, setUploading] = useState(false)
   const selectedDataset = datasets.find((d) => d.id === selected)
 
   useEffect(() => {
@@ -989,23 +996,47 @@ export default function DataUnderstandingPage() {
     }
   }, [currentProjectId])
 
-  async function handleAddDataset(label: string) {
-    draftCounter += 1
-    const draft: Partial<ProfiledDataset> = {
-      id: `dataset_draft_${draftCounter}`,
-      projectId: currentProjectId,
-      filename: `untitled_dataset_${draftCounter}.csv`,
-      status: "pending",
-      libraryStatus: "uploaded",
-      version: "v1 — raw",
-      rows: 0,
-      columns: 0,
-      fileSizeKb: 0,
-    }
-    const created = await api.datasets.create(draft)
-    setDatasets((prev) => [created, ...prev])
-    setSelected(created.id)
+  function openAddDialog(option: (typeof addDatasetOptions)[number]) {
+    setDialogOption(option)
+    setPendingFile(null)
+    setSensitivityLevel("restricted")
     setAddOpen(false)
+  }
+
+  async function handleConfirmAdd() {
+    if (!dialogOption || !currentProjectId) return
+    setUploading(true)
+    try {
+      let created: ProfiledDataset
+      if (dialogOption.key === "upload") {
+        if (!pendingFile) return
+        const formData = new FormData()
+        formData.append("projectId", currentProjectId)
+        formData.append("sensitivityLevel", sensitivityLevel)
+        formData.append("file", pendingFile)
+        created = await api.datasets.upload(formData)
+      } else {
+        draftCounter += 1
+        const draft: Partial<ProfiledDataset> = {
+          id: `dataset_draft_${draftCounter}`,
+          projectId: currentProjectId,
+          filename: `untitled_dataset_${draftCounter}.csv`,
+          status: "pending",
+          libraryStatus: "uploaded",
+          version: "v1 — raw",
+          rows: 0,
+          columns: 0,
+          fileSizeKb: 0,
+          sensitivityLevel,
+        }
+        created = await api.datasets.create(draft)
+      }
+      setDatasets((prev) => [created, ...prev])
+      setSelected(created.id)
+      setDialogOption(null)
+    } finally {
+      setUploading(false)
+    }
   }
 
   return (
@@ -1024,13 +1055,69 @@ export default function DataUnderstandingPage() {
 
         {addOpen && (
           <div className="px-3 py-2 border-b border-gray-200 space-y-1">
-            {addDatasetOptions.map(({ key, label, icon: Icon }) => (
-              <button key={key} onClick={() => handleAddDataset(label)} className="w-full flex items-center gap-2 text-left px-2.5 py-2 rounded-lg text-xs text-gray-600 hover:bg-gray-50">
-                <Icon className="w-3.5 h-3.5 text-gray-400" /> {label}
+            {addDatasetOptions.map((option) => (
+              <button key={option.key} onClick={() => openAddDialog(option)} className="w-full flex items-center gap-2 text-left px-2.5 py-2 rounded-lg text-xs text-gray-600 hover:bg-gray-50">
+                <option.icon className="w-3.5 h-3.5 text-gray-400" /> {option.label}
               </button>
             ))}
           </div>
         )}
+
+        <Dialog open={dialogOption !== null} onOpenChange={(open) => !open && setDialogOption(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{dialogOption?.label}</DialogTitle>
+              <DialogDescription>
+                {dialogOption?.key === "upload"
+                  ? "Choose a CSV or Excel file to upload. It will be encrypted at rest."
+                  : "This will add a placeholder entry — full processing for this source isn't built yet."}
+              </DialogDescription>
+            </DialogHeader>
+
+            {dialogOption?.key === "upload" && (
+              <input
+                type="file"
+                accept=".csv,.xlsx,.xls"
+                onChange={(e) => setPendingFile(e.target.files?.[0] ?? null)}
+                className="text-xs text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-gray-700 hover:file:bg-gray-200"
+              />
+            )}
+
+            <div className="space-y-2">
+              <div className="text-xs font-medium text-gray-700">Sensitivity level</div>
+              {SENSITIVITY_OPTIONS.map((opt) => (
+                <label
+                  key={opt.value}
+                  className={cn(
+                    "flex items-start gap-2 rounded-lg border px-3 py-2 text-xs cursor-pointer",
+                    sensitivityLevel === opt.value ? "border-sky-300 bg-sky-50" : "border-gray-200"
+                  )}
+                >
+                  <input
+                    type="radio"
+                    name="sensitivityLevel"
+                    className="mt-0.5"
+                    checked={sensitivityLevel === opt.value}
+                    onChange={() => setSensitivityLevel(opt.value)}
+                  />
+                  <span>
+                    <span className="font-medium text-gray-800">{opt.label}</span>
+                    <span className="block text-gray-500">{opt.description}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            <DialogFooter>
+              <Button
+                onClick={handleConfirmAdd}
+                disabled={uploading || (dialogOption?.key === "upload" && !pendingFile)}
+              >
+                {uploading ? "Adding…" : "Add"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         <ScrollArea className="flex-1 min-h-0">
           <div className="px-3 py-3 space-y-1">

@@ -99,6 +99,8 @@ export interface AgentTraceEntry {
   timestamp: string
 }
 
+export type SensitivityLevel = "public" | "restricted" | "no_ai"
+
 export interface ProfiledDataset {
   id: string
   projectId: string
@@ -106,6 +108,9 @@ export interface ProfiledDataset {
   uploadedAt: string
   status: DatasetStatus
   libraryStatus: LibraryStatus
+  storagePath?: string
+  sensitivityLevel: SensitivityLevel
+  columnDtypes?: Record<string, string>
   version: string
   derivedFrom?: string
   rows: number
@@ -144,6 +149,7 @@ export const profiledDatasets: ProfiledDataset[] = [
   {
     id: "dataset_001",
     projectId: "project_001",
+    sensitivityLevel: "restricted",
     filename: "nsclc_cohort_312_patients.csv",
     uploadedAt: "2026-05-14",
     status: "profiled",
@@ -275,6 +281,7 @@ export const profiledDatasets: ProfiledDataset[] = [
   {
     id: "dataset_001_v2",
     projectId: "project_001",
+    sensitivityLevel: "restricted",
     filename: "nsclc_cohort_312_patients_cleaned_v2.csv",
     uploadedAt: "2026-06-17",
     status: "profiled",
@@ -295,6 +302,7 @@ export const profiledDatasets: ProfiledDataset[] = [
   {
     id: "dataset_002",
     projectId: "project_001",
+    sensitivityLevel: "public",
     filename: "cohort_validation_set_88.xlsx",
     uploadedAt: "2026-06-16",
     status: "pending",
@@ -307,6 +315,7 @@ export const profiledDatasets: ProfiledDataset[] = [
   {
     id: "dataset_101",
     projectId: "project_002",
+    sensitivityLevel: "restricted",
     filename: "t2d_depression_cohort_150_patients.csv",
     uploadedAt: "2026-06-21",
     status: "profiled",

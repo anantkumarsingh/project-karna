@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Literal
 
 from app.schemas._base import CamelModel
 
@@ -18,6 +19,8 @@ class PaperBase(CamelModel):
     library_status: str = "processing"
     extraction_confidence: str | None = None
     methods_page_ref: str | None = None
+    storage_path: str | None = None
+    sensitivity_level: Literal["public", "restricted", "no_ai"] = "restricted"
 
     abstract: str | None = None
     research_question: str | None = None

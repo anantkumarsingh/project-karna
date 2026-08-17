@@ -56,10 +56,21 @@ function makeCrud<TRead, TCreate = Partial<TRead>, TUpdate = Partial<TRead>>(res
   }
 }
 
+// Deliberately bypasses apiFetch's hardcoded JSON Content-Type — a FormData
+// body needs the browser to set its own multipart boundary.
+async function apiUpload<T>(path: string, formData: FormData): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, { method: "POST", body: formData })
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "")
+    throw new ApiError(res.status, `POST ${path} failed (${res.status}): ${detail}`)
+  }
+  return (await res.json()) as T
+}
+
 export const api = {
   projects: makeCrud<Project>("projects"),
-  papers: makeCrud<ExtractedPaper>("papers"),
-  datasets: makeCrud<ProfiledDataset>("datasets"),
+  papers: { ...makeCrud<ExtractedPaper>("papers"), upload: (formData: FormData) => apiUpload<ExtractedPaper>("/papers/upload", formData) },
+  datasets: { ...makeCrud<ProfiledDataset>("datasets"), upload: (formData: FormData) => apiUpload<ProfiledDataset>("/datasets/upload", formData) },
   researchQuestions: makeCrud<ResearchQuestionDetail>("research-questions"),
   analyses: makeCrud<ExecutedAnalysis>("analyses"),
   artifacts: makeCrud<Artifact>("artifacts"),

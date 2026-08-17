@@ -24,6 +24,15 @@ class Dataset(Base):
     patients: Mapped[int | None] = mapped_column(Integer, nullable=True)
     timepoints: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
+    # B2: file storage (relative to research_workspace_dir; None for non-file
+    # add-paths like REDCap/dataset-ID) and the AI-exposure sensitivity tier chosen
+    # at upload time. column_dtypes is B2's own deterministic {name: dtype} map —
+    # kept separate from `variables` below, which is reserved for B5's much richer
+    # per-column profiling shape. Sensitivity enforcement starts B4/B5, not yet.
+    storage_path: Mapped[str | None] = mapped_column(String, nullable=True)
+    sensitivity_level: Mapped[str] = mapped_column(String, nullable=False, default="restricted")
+    column_dtypes: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+
     summary: Mapped[str | None] = mapped_column(String, nullable=True)
     structure_type: Mapped[str | None] = mapped_column(String, nullable=True)
     structure_notes: Mapped[str | None] = mapped_column(String, nullable=True)

@@ -42,11 +42,14 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InfoCard, PlainCard, CompactPanel } from "@/components/layout/InfoCard"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { SENSITIVITY_OPTIONS } from "@/lib/sensitivity"
 import {
   type ExtractedPaper,
   type VariableRole,
   type LibraryStatus,
   type MatchStatus,
+  type SensitivityLevel,
 } from "@/lib/dummy-papers"
 import type { ProfiledDataset } from "@/lib/dummy-datasets"
 import { useProject } from "@/components/layout/ProjectContext"
@@ -870,6 +873,10 @@ export default function PapersPage() {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<string>("")
   const [addOpen, setAddOpen] = useState(false)
+  const [dialogOption, setDialogOption] = useState<(typeof addPaperOptions)[number] | null>(null)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const [sensitivityLevel, setSensitivityLevel] = useState<SensitivityLevel>("restricted")
+  const [uploading, setUploading] = useState(false)
   const selectedPaper = papers.find((p) => p.id === selected)
 
   useEffect(() => {
@@ -887,23 +894,47 @@ export default function PapersPage() {
     }
   }, [currentProjectId])
 
-  async function handleAddPaper(optionLabel: string) {
-    paperDraftCounter += 1
-    const draft: Partial<ExtractedPaper> = {
-      id: `paper_draft_${paperDraftCounter}`,
-      projectId: currentProjectId,
-      title: `Untitled paper (via ${optionLabel})`,
-      authors: "—",
-      journal: "—",
-      year: new Date().getFullYear(),
-      pageCount: 0,
-      status: "pending",
-      libraryStatus: "processing",
-    }
-    const created = await api.papers.create(draft)
-    setPapers((prev) => [created, ...prev])
-    setSelected(created.id)
+  function openAddDialog(option: (typeof addPaperOptions)[number]) {
+    setDialogOption(option)
+    setPendingFile(null)
+    setSensitivityLevel("restricted")
     setAddOpen(false)
+  }
+
+  async function handleConfirmAdd() {
+    if (!dialogOption || !currentProjectId) return
+    setUploading(true)
+    try {
+      let created: ExtractedPaper
+      if (dialogOption.key === "pdf") {
+        if (!pendingFile) return
+        const formData = new FormData()
+        formData.append("projectId", currentProjectId)
+        formData.append("sensitivityLevel", sensitivityLevel)
+        formData.append("file", pendingFile)
+        created = await api.papers.upload(formData)
+      } else {
+        paperDraftCounter += 1
+        const draft: Partial<ExtractedPaper> = {
+          id: `paper_draft_${paperDraftCounter}`,
+          projectId: currentProjectId,
+          title: `Untitled paper (via ${dialogOption.label})`,
+          authors: "—",
+          journal: "—",
+          year: new Date().getFullYear(),
+          pageCount: 0,
+          status: "pending",
+          libraryStatus: "processing",
+          sensitivityLevel,
+        }
+        created = await api.papers.create(draft)
+      }
+      setPapers((prev) => [created, ...prev])
+      setSelected(created.id)
+      setDialogOption(null)
+    } finally {
+      setUploading(false)
+    }
   }
 
   return (
@@ -925,17 +956,73 @@ export default function PapersPage() {
 
         {addOpen && (
           <div className="px-3 py-2 border-b border-gray-200 space-y-1">
-            {addPaperOptions.map(({ key, label, icon: Icon }) => (
+            {addPaperOptions.map((option) => (
               <button
-                key={key}
-                onClick={() => handleAddPaper(label)}
+                key={option.key}
+                onClick={() => openAddDialog(option)}
                 className="w-full flex items-center gap-2 text-left px-2.5 py-2 rounded-lg text-xs text-gray-600 hover:bg-gray-50"
               >
-                <Icon className="w-3.5 h-3.5 text-gray-400" /> {label}
+                <option.icon className="w-3.5 h-3.5 text-gray-400" /> {option.label}
               </button>
             ))}
           </div>
         )}
+
+        <Dialog open={dialogOption !== null} onOpenChange={(open) => !open && setDialogOption(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{dialogOption?.label}</DialogTitle>
+              <DialogDescription>
+                {dialogOption?.key === "pdf"
+                  ? "Choose a PDF to upload. It will be encrypted at rest."
+                  : "This will add a placeholder entry — full processing for this source isn't built yet."}
+              </DialogDescription>
+            </DialogHeader>
+
+            {dialogOption?.key === "pdf" && (
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={(e) => setPendingFile(e.target.files?.[0] ?? null)}
+                className="text-xs text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-gray-700 hover:file:bg-gray-200"
+              />
+            )}
+
+            <div className="space-y-2">
+              <div className="text-xs font-medium text-gray-700">Sensitivity level</div>
+              {SENSITIVITY_OPTIONS.map((opt) => (
+                <label
+                  key={opt.value}
+                  className={cn(
+                    "flex items-start gap-2 rounded-lg border px-3 py-2 text-xs cursor-pointer",
+                    sensitivityLevel === opt.value ? "border-violet-300 bg-violet-50" : "border-gray-200"
+                  )}
+                >
+                  <input
+                    type="radio"
+                    name="sensitivityLevel"
+                    className="mt-0.5"
+                    checked={sensitivityLevel === opt.value}
+                    onChange={() => setSensitivityLevel(opt.value)}
+                  />
+                  <span>
+                    <span className="font-medium text-gray-800">{opt.label}</span>
+                    <span className="block text-gray-500">{opt.description}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            <DialogFooter>
+              <Button
+                onClick={handleConfirmAdd}
+                disabled={uploading || (dialogOption?.key === "pdf" && !pendingFile)}
+              >
+                {uploading ? "Adding…" : "Add"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         <ScrollArea className="flex-1 min-h-0">
           <div className="px-3 py-3 space-y-1">
