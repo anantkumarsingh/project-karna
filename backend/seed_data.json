@@ -1,0 +1,2888 @@
+{
+  "projects": [
+    {
+      "id": "project_001",
+      "name": "Biomarker Prognostic Study — NSCLC Cohort",
+      "description": "Investigating whether baseline serum IL-6 and CRP levels predict progression-free survival in patients with non-small cell lung cancer receiving first-line immunotherapy.",
+      "domain": "Biomedical / Clinical Oncology",
+      "status": "active",
+      "createdAt": "2026-05-12",
+      "lastActivity": "2026-06-16T14:32:00Z",
+      "researchQuestionIds": [
+        "rq_001",
+        "rq_002"
+      ],
+      "focusedQuestionId": "rq_001"
+    },
+    {
+      "id": "project_002",
+      "name": "Depression & Glycemic Control in Type 2 Diabetes",
+      "description": "Exploring whether depressive symptom severity (PHQ-9) is associated with poor glycemic control (HbA1c) in adults with type 2 diabetes, independent of medication adherence.",
+      "domain": "Biomedical / Endocrinology",
+      "status": "paused",
+      "createdAt": "2026-06-20",
+      "lastActivity": "2026-06-22T11:00:00Z",
+      "researchQuestionIds": [
+        "rq_101"
+      ],
+      "focusedQuestionId": "rq_101"
+    }
+  ],
+  "papers": [
+    {
+      "id": "paper_001",
+      "projectId": "project_001",
+      "title": "Serum IL-6 as a Predictive Biomarker for Immunotherapy Response in NSCLC",
+      "authors": "Chen, X., Matsuda, R., Kim, J., Okafor, N., Patel, S.",
+      "journal": "Journal of Thoracic Oncology",
+      "year": 2024,
+      "doi": "10.1016/j.jtho.2024.03.012",
+      "pageCount": 14,
+      "uploadedAt": "2026-05-13",
+      "status": "processed",
+      "libraryStatus": "used_in_analysis",
+      "extractionCompletedAt": "2026-05-13T11:22:00Z",
+      "extractionConfidence": "high",
+      "methodsPageRef": "p. 3–5, Methods section",
+      "abstract": "Background: Serum interleukin-6 (IL-6) has emerged as a candidate predictive biomarker for immune checkpoint inhibitor (ICI) response in non-small cell lung cancer (NSCLC). We investigated whether baseline IL-6 independently predicts progression-free survival (PFS) after adjusting for established clinical confounders. Methods: We analyzed 287 NSCLC patients receiving first-line pembrolizumab monotherapy at two academic centers between 2019 and 2022. Baseline serum IL-6 was measured within 7 days of treatment initiation. Cox proportional hazards models were used to estimate hazard ratios adjusted for age, sex, ECOG performance status, and disease stage. Results: Higher baseline IL-6 was independently associated with shorter PFS (HR 1.38, 95% CI 1.08–1.76, p=0.009). Kaplan-Meier analysis stratified by IL-6 tertile demonstrated significant separation (log-rank p=0.004). Conclusions: Baseline serum IL-6 is an independent predictor of PFS in NSCLC patients receiving first-line ICI therapy and warrants prospective validation.",
+      "researchQuestion": "Is baseline serum IL-6 an independent predictor of progression-free survival in NSCLC patients receiving first-line immune checkpoint inhibitor therapy, after adjusting for established clinical confounders?",
+      "hypotheses": [
+        "Higher baseline serum IL-6 is independently associated with shorter progression-free survival after adjusting for age, sex, ECOG status, and disease stage.",
+        "IL-6 tertile grouping demonstrates significant survival separation on Kaplan-Meier analysis."
+      ],
+      "studyDesign": "Retrospective observational cohort study at two academic medical centers",
+      "studyType": "Retrospective cohort",
+      "population": "Adult patients with histologically confirmed non-small cell lung cancer (NSCLC) receiving first-line pembrolizumab monotherapy at two academic centers, 2019–2022.",
+      "sampleSize": 287,
+      "followUpDuration": "Median follow-up 18.4 months (IQR: 10.2–26.1)",
+      "inclusionCriteria": [
+        "Histologically confirmed NSCLC",
+        "First-line pembrolizumab monotherapy",
+        "PD-L1 TPS ≥50%",
+        "ECOG PS 0–2",
+        "Baseline serum IL-6 measured within 7 days of treatment initiation",
+        "Age ≥18 years"
+      ],
+      "exclusionCriteria": [
+        "Prior systemic anticancer therapy",
+        "Active autoimmune disease requiring systemic treatment",
+        "Concurrent corticosteroid use (>10 mg/day prednisone equivalent)",
+        "Active infection at baseline",
+        "Missing baseline IL-6 measurement"
+      ],
+      "primaryEndpoint": "Progression-free survival (PFS) per RECIST 1.1",
+      "secondaryEndpoints": [
+        "Overall survival (OS)",
+        "Objective response rate (ORR)",
+        "Correlation between IL-6 and CRP levels"
+      ],
+      "variables": [
+        {
+          "name": "il6_baseline",
+          "role": "independent",
+          "type": "continuous",
+          "description": "Baseline serum IL-6 (pg/mL)",
+          "unit": "pg/mL",
+          "datasetMatch": "il6_baseline"
+        },
+        {
+          "name": "pfs_months",
+          "role": "primary_outcome",
+          "type": "time_to_event",
+          "description": "Progression-free survival in months",
+          "unit": "months",
+          "datasetMatch": "pfs_months"
+        },
+        {
+          "name": "pfs_event",
+          "role": "event_indicator",
+          "type": "binary",
+          "description": "PFS event indicator (1=progression/death, 0=censored)",
+          "datasetMatch": "pfs_event"
+        },
+        {
+          "name": "os_months",
+          "role": "secondary_outcome",
+          "type": "time_to_event",
+          "description": "Overall survival in months",
+          "unit": "months",
+          "datasetMatch": "os_months"
+        },
+        {
+          "name": "os_event",
+          "role": "event_indicator",
+          "type": "binary",
+          "description": "OS event indicator (1=death, 0=censored)",
+          "datasetMatch": "os_event"
+        },
+        {
+          "name": "age",
+          "role": "covariate",
+          "type": "continuous",
+          "description": "Age at diagnosis",
+          "unit": "years",
+          "datasetMatch": "age"
+        },
+        {
+          "name": "sex",
+          "role": "covariate",
+          "type": "binary",
+          "description": "Patient sex (M/F)",
+          "datasetMatch": "sex"
+        },
+        {
+          "name": "ecog_ps",
+          "role": "covariate",
+          "type": "ordinal",
+          "description": "ECOG performance status (0–2)"
+        },
+        {
+          "name": "stage",
+          "role": "covariate",
+          "type": "categorical",
+          "description": "Disease stage (IIIB/IV)",
+          "datasetMatch": "stage_iv"
+        },
+        {
+          "name": "pdl1_tps",
+          "role": "covariate",
+          "type": "continuous",
+          "description": "PD-L1 tumor proportion score (%)",
+          "unit": "%"
+        },
+        {
+          "name": "crp_baseline",
+          "role": "secondary_outcome",
+          "type": "continuous",
+          "description": "Baseline serum CRP (mg/L)",
+          "unit": "mg/L",
+          "datasetMatch": "crp_baseline"
+        },
+        {
+          "name": "histology",
+          "role": "covariate",
+          "type": "categorical",
+          "description": "Tumor histology (adenocarcinoma vs squamous)"
+        }
+      ],
+      "statisticalMethods": [
+        "Cox proportional hazards regression",
+        "Kaplan-Meier survival estimation",
+        "Log-rank test",
+        "Spearman correlation (IL-6 vs CRP)",
+        "Proportional hazards assumption check via Schoenfeld residuals",
+        "Variance inflation factor (VIF) for multicollinearity assessment"
+      ],
+      "primaryAnalysis": "Multivariable Cox proportional hazards model with PFS as the time-to-event outcome, IL-6 (log-transformed, continuous) as the primary predictor, adjusted for age, sex, ECOG PS, and disease stage.",
+      "softwareUsed": [
+        "R 4.3.1",
+        "survival package",
+        "survminer package",
+        "ggplot2"
+      ],
+      "keyFindings": [
+        "Higher baseline IL-6 independently associated with shorter PFS: HR 1.38 (95% CI 1.08–1.76), p=0.009",
+        "Kaplan-Meier by IL-6 tertile: log-rank p=0.004 with clear stratum separation at 12 months",
+        "IL-6 remained significant after adjusting for PD-L1 TPS in sensitivity analysis",
+        "Spearman correlation between IL-6 and CRP: r=0.61, p<0.001",
+        "Proportional hazards assumption not violated (global Schoenfeld p=0.21)"
+      ],
+      "limitations": [
+        "Retrospective design — potential selection bias",
+        "Two-center study — may limit generalizability",
+        "IL-6 measured at single baseline timepoint; serial measurements not available",
+        "PD-L1 TPS data missing in 18% of patients",
+        "No mechanistic data to explain IL-6-driven ICI resistance"
+      ],
+      "conclusions": "Baseline serum IL-6 is an independent predictor of PFS in NSCLC patients receiving first-line pembrolizumab. These findings support further prospective evaluation of IL-6 as a routine biomarker in ICI treatment decisions.",
+      "datasetConnectionSummary": "Your dataset (nsclc_cohort_312_patients.csv) maps well to this paper's core analysis. 8 of 12 paper variables have direct matches. The primary Cox regression (IL-6 → PFS, adjusted for age, sex, stage) can be replicated. ECOG PS and PD-L1 TPS are missing from your dataset, which were adjustment covariates in the paper — this limits direct comparison but the core association can still be tested.",
+      "replicabilityScore": 78,
+      "replicabilityNotes": [
+        "Core analysis replicable: IL-6 → PFS Cox regression can be run with your dataset",
+        "Adjustment for ECOG PS not possible — not in dataset (minor limitation)",
+        "Adjustment for PD-L1 TPS not possible — not in dataset",
+        "Secondary endpoint (ORR) not in dataset — skip or note as limitation",
+        "Sample size comparable: 312 vs paper's 287",
+        "Suggested: run adjusted Cox with available covariates (age, sex, stage_iv) and note missing ECOG/PD-L1"
+      ],
+      "variableMatchCount": 8,
+      "variableMissingCount": 4,
+      "keyTakeaways": {
+        "clinicalRelevance": "IL-6 is a cheap, widely available blood marker — if validated, it could help triage patients unlikely to benefit from ICI monotherapy before starting treatment.",
+        "statisticalApproach": "Standard, well-executed survival analysis (Cox + Kaplan-Meier) with appropriate assumption checking — a solid template for your own PFS/OS endpoints.",
+        "reusable": "The adjusted Cox model structure (predictor + age + sex + stage) maps almost directly onto your dataset.",
+        "caution": "Retrospective, two-center design — treat the effect size as a hypothesis to confirm, not a settled result."
+      },
+      "claims": [
+        {
+          "finding": "Higher baseline IL-6 independently associated with shorter PFS",
+          "statistic": "HR 1.38",
+          "ci": "95% CI 1.08–1.76",
+          "pValue": "p = 0.009",
+          "model": "Multivariable Cox proportional hazards",
+          "covariates": [
+            "age",
+            "sex",
+            "stage"
+          ],
+          "sourceRef": "p. 7, Table 2"
+        },
+        {
+          "finding": "IL-6 tertile groups show distinct PFS curves",
+          "statistic": "Log-rank χ²",
+          "pValue": "p = 0.004",
+          "model": "Kaplan-Meier, tertile-stratified",
+          "sourceRef": "p. 8, Figure 2"
+        },
+        {
+          "finding": "IL-6 and CRP are moderately correlated",
+          "statistic": "Spearman r = 0.61",
+          "pValue": "p < 0.001",
+          "sourceRef": "p. 9, Results — secondary analyses"
+        }
+      ],
+      "concepts": [
+        {
+          "name": "Confounding",
+          "whyItMatters": "Age, sex, and disease stage could all independently affect both IL-6 levels and survival, creating a spurious association if unadjusted.",
+          "howToCheck": "Compare unadjusted vs. adjusted hazard ratios — a large shift suggests confounding was present.",
+          "datasetSupport": "supported"
+        },
+        {
+          "name": "Survival (immortal time) bias",
+          "whyItMatters": "If IL-6 was measured at variable times after treatment start, patients who progressed early may be systematically excluded.",
+          "howToCheck": "Verify IL-6 was measured within a fixed window (paper specifies ≤7 days) before treatment start.",
+          "datasetSupport": "supported"
+        },
+        {
+          "name": "Competing risks",
+          "whyItMatters": "Death from causes other than disease progression could distort a naive PFS estimate.",
+          "howToCheck": "Check whether pfs_event distinguishes progression/death from other causes of censoring.",
+          "datasetSupport": "partial"
+        },
+        {
+          "name": "Clinical vs. statistical significance",
+          "whyItMatters": "HR 1.38 is statistically significant, but whether a ~38% relative hazard increase changes treatment decisions is a separate clinical judgment.",
+          "howToCheck": "Discuss the absolute PFS difference (months) with a clinical collaborator, not just the HR.",
+          "datasetSupport": "not_supported"
+        }
+      ],
+      "replicationReadiness": {
+        "endpoint": {
+          "paper": "Progression-free survival (PFS)",
+          "dataset": "pfs_months + pfs_event",
+          "status": "ready"
+        },
+        "exposure": {
+          "paper": "Baseline serum IL-6",
+          "dataset": "il6_baseline",
+          "status": "ready"
+        },
+        "covariates": [
+          {
+            "name": "age",
+            "status": "matched"
+          },
+          {
+            "name": "sex",
+            "status": "matched"
+          },
+          {
+            "name": "stage",
+            "status": "matched"
+          },
+          {
+            "name": "ECOG performance status",
+            "status": "missing"
+          },
+          {
+            "name": "PD-L1 TPS",
+            "status": "missing"
+          }
+        ],
+        "recommendedAnalyses": [
+          "Kaplan-Meier curve stratified by IL-6 tertile",
+          "Adjusted Cox proportional hazards regression"
+        ],
+        "warnings": [
+          "ECOG performance status missing from dataset — replication will differ from the paper's fully-adjusted model",
+          "PD-L1 TPS missing in 18% of patients — paper used this as a covariate",
+          "Dataset sample size (312) is larger than the paper's (287) — not a limitation, but note when comparing effect sizes"
+        ]
+      },
+      "methodCard": {
+        "name": "Adjusted Cox Regression — IL-6 → PFS",
+        "usedInPaper": true,
+        "endpoint": "Progression-free survival",
+        "exposure": "Baseline serum IL-6 (log-transformed)",
+        "covariates": [
+          "age",
+          "sex",
+          "stage"
+        ],
+        "reportedResult": "HR 1.38 (95% CI 1.08–1.76), p = 0.009",
+        "datasetReadiness": "3/5 variables matched (ECOG, PD-L1 TPS missing)"
+      },
+      "researchGaps": [
+        "Did not evaluate biomarker-defined subgroups (e.g. PD-L1 × IL-6 interaction)",
+        "No external validation cohort — findings are from a single two-center sample",
+        "ECOG-adjusted sensitivity analysis not performed due to missing data"
+      ],
+      "agentTrace": [
+        {
+          "agent": "Paper Agent",
+          "action": "Extracted methods, study design, and 12 variables from PDF",
+          "timestamp": "2026-05-13T11:18:00Z"
+        },
+        {
+          "agent": "Paper Agent",
+          "action": "Linked 8 of 12 paper variables to dataset columns",
+          "timestamp": "2026-05-13T11:20:00Z"
+        },
+        {
+          "agent": "Critic Agent",
+          "action": "Flagged ECOG performance status and PD-L1 TPS as missing from dataset",
+          "timestamp": "2026-05-13T11:21:00Z"
+        },
+        {
+          "agent": "Memory Agent",
+          "action": "Created rulebook entry linking il6_baseline to this paper's primary exposure",
+          "timestamp": "2026-05-13T11:22:00Z"
+        }
+      ],
+      "suggestedQuestions": [
+        {
+          "question": "What statistical tests did this paper use?",
+          "answer": "The paper used multivariable Cox proportional hazards regression as the primary analysis, with Kaplan-Meier estimation and the log-rank test for the tertile comparison, Spearman correlation for the IL-6/CRP relationship, and Schoenfeld residuals plus VIF to check Cox model assumptions.",
+          "sources": "p. 3–5, Methods section",
+          "confidence": "high",
+          "relatedActions": [
+            "Add to Rulebook",
+            "Create Analysis"
+          ]
+        },
+        {
+          "question": "What variables should I map to my dataset?",
+          "answer": "Map il6_baseline (exposure), pfs_months + pfs_event (outcome), and age/sex/stage as covariates — all already matched. ECOG performance status and PD-L1 TPS are used in the paper but not present in your dataset.",
+          "sources": "p. 4, Table 1 variable list",
+          "confidence": "high",
+          "relatedActions": [
+            "Map Variables"
+          ]
+        },
+        {
+          "question": "Can I replicate this paper?",
+          "answer": "Mostly yes. Your dataset has everything needed for the core Cox model (IL-6 adjusted for age, sex, stage). You won't be able to replicate the ECOG- and PD-L1-adjusted sensitivity analyses without those columns.",
+          "sources": "Replication Readiness assessment",
+          "confidence": "high",
+          "relatedActions": [
+            "Create Analysis"
+          ]
+        },
+        {
+          "question": "What are the major limitations?",
+          "answer": "Retrospective design with potential selection bias, two-center sample limiting generalizability, single baseline IL-6 measurement rather than serial levels, and 18% missingness in PD-L1 TPS.",
+          "sources": "p. 11, Limitations section",
+          "confidence": "medium",
+          "relatedActions": []
+        }
+      ]
+    },
+    {
+      "id": "paper_002",
+      "projectId": "project_001",
+      "title": "Inflammatory Markers and Overall Survival in Advanced Lung Cancer: A Meta-Analysis",
+      "authors": "Hoffman, D., Patel, A., Ferreira, C., Nakamura, Y., et al.",
+      "journal": "The Lancet Oncology",
+      "year": 2023,
+      "doi": "10.1016/S1470-2045(23)00412-9",
+      "pageCount": 22,
+      "uploadedAt": "2026-05-18",
+      "status": "processed",
+      "libraryStatus": "extracted",
+      "extractionCompletedAt": "2026-05-18T14:05:00Z",
+      "extractionConfidence": "medium",
+      "methodsPageRef": "p. 4–7, Methods section",
+      "abstract": "We performed a systematic review and meta-analysis of 24 studies (n=6,842 patients) examining the association between pre-treatment inflammatory markers (IL-6, CRP, NLR) and overall survival in advanced lung cancer. Random-effects meta-analysis demonstrated that elevated IL-6 was associated with significantly worse OS (pooled HR 1.52, 95% CI 1.34–1.72, I²=43%). CRP showed similar associations (pooled HR 1.41, 95% CI 1.22–1.63). These findings support inflammatory markers as prognostic biomarkers in advanced lung cancer.",
+      "researchQuestion": "Are pre-treatment inflammatory markers (IL-6, CRP, NLR) associated with overall survival in patients with advanced lung cancer, and what is the magnitude of association across published studies?",
+      "hypotheses": [
+        "Elevated baseline IL-6 is associated with worse overall survival across multiple studies (pooled analysis).",
+        "CRP and NLR provide additional or complementary prognostic information."
+      ],
+      "studyDesign": "Systematic review and random-effects meta-analysis of 24 published cohort studies",
+      "studyType": "Meta-analysis",
+      "population": "Patients with advanced (stage III–IV) lung cancer across 24 studies published 2010–2023, n=6,842 total",
+      "sampleSize": 6842,
+      "followUpDuration": "Study-specific; median OS across included studies 12.1–31.4 months",
+      "inclusionCriteria": [
+        "Studies reporting baseline IL-6, CRP, or NLR and OS outcome",
+        "Advanced lung cancer (stage III–IV) population",
+        "Hazard ratio and 95% CI reported or derivable",
+        "Published 2010–2023"
+      ],
+      "exclusionCriteria": [
+        "Early-stage lung cancer studies",
+        "Studies without survival endpoint",
+        "Case reports or case series <20 patients",
+        "No available HRs"
+      ],
+      "primaryEndpoint": "Overall survival (OS)",
+      "secondaryEndpoints": [
+        "Progression-free survival (PFS)",
+        "Objective response rate"
+      ],
+      "variables": [
+        {
+          "name": "il6_elevated",
+          "role": "independent",
+          "type": "binary",
+          "description": "Elevated baseline IL-6 (study-specific cutoffs)"
+        },
+        {
+          "name": "crp_elevated",
+          "role": "independent",
+          "type": "binary",
+          "description": "Elevated baseline CRP"
+        },
+        {
+          "name": "nlr_elevated",
+          "role": "independent",
+          "type": "binary",
+          "description": "Elevated neutrophil-to-lymphocyte ratio"
+        },
+        {
+          "name": "os_hr",
+          "role": "primary_outcome",
+          "type": "continuous",
+          "description": "Pooled hazard ratio for OS"
+        },
+        {
+          "name": "pfs_hr",
+          "role": "secondary_outcome",
+          "type": "continuous",
+          "description": "Pooled hazard ratio for PFS"
+        }
+      ],
+      "statisticalMethods": [
+        "Random-effects meta-analysis (DerSimonian-Laird method)",
+        "Cochran Q test and I² statistic for heterogeneity",
+        "Funnel plot asymmetry and Egger's test for publication bias",
+        "Sensitivity analysis excluding high-risk-of-bias studies",
+        "Subgroup analysis by treatment type (ICI vs chemotherapy)"
+      ],
+      "primaryAnalysis": "Random-effects meta-analysis of HR for OS in studies reporting elevated vs non-elevated IL-6, CRP, and NLR.",
+      "softwareUsed": [
+        "R 4.2",
+        "meta package",
+        "metafor package"
+      ],
+      "keyFindings": [
+        "IL-6 elevated vs normal: pooled HR for OS = 1.52 (95% CI 1.34–1.72), p<0.001, I²=43%",
+        "CRP elevated vs normal: pooled HR for OS = 1.41 (95% CI 1.22–1.63)",
+        "NLR elevated vs normal: pooled HR for OS = 1.38 (95% CI 1.19–1.60)",
+        "Subgroup: IL-6 effect larger in ICI-treated patients (HR 1.67) vs chemotherapy (HR 1.38)",
+        "No significant publication bias detected (Egger's p=0.18)"
+      ],
+      "limitations": [
+        "Heterogeneous IL-6 cutoffs across studies (no universal threshold)",
+        "Moderate heterogeneity for IL-6 (I²=43%)",
+        "Most included studies retrospective",
+        "Limited data on combined multi-marker models"
+      ],
+      "conclusions": "Pre-treatment elevated IL-6, CRP, and NLR are consistent prognostic markers for worse overall survival in advanced lung cancer. The effect appears larger in ICI-treated populations, supporting their evaluation as predictive as well as prognostic biomarkers.",
+      "datasetConnectionSummary": "This is a meta-analysis — direct data replication is not applicable. However, the pooled HRs from this paper provide valuable benchmarks for comparing your study's effect estimates. Your HR for IL-6 → PFS (1.42) is consistent with this paper's pooled OS HR (1.52), supporting external validity.",
+      "replicabilityScore": 20,
+      "replicabilityNotes": [
+        "Not directly replicable (meta-analysis, not primary data study)",
+        "Use as external benchmark: compare your HR to pooled HRs reported here",
+        "Subgroup finding (stronger IL-6 effect in ICI patients) directly relevant to your cohort"
+      ],
+      "variableMatchCount": 2,
+      "variableMissingCount": 3,
+      "keyTakeaways": {
+        "clinicalRelevance": "Provides an external benchmark — your own IL-6 effect size can be compared against this pooled estimate across 24 studies.",
+        "statisticalApproach": "Random-effects meta-analysis is appropriate given between-study heterogeneity (I²=43%); not a method you'd run directly on your own single-cohort dataset.",
+        "reusable": "The subgroup finding (IL-6 effect larger in ICI-treated patients) is directly relevant context for interpreting your own cohort.",
+        "caution": "Heterogeneous IL-6 cutoffs across the 24 included studies — pooled HR should be treated as a rough benchmark, not a precise target."
+      },
+      "claims": [
+        {
+          "finding": "Elevated IL-6 associated with worse overall survival",
+          "statistic": "Pooled HR 1.52",
+          "ci": "95% CI 1.34–1.72",
+          "pValue": "p < 0.001",
+          "model": "Random-effects meta-analysis (24 studies, n=6,842)",
+          "sourceRef": "p. 9, Figure 3 (forest plot)"
+        },
+        {
+          "finding": "IL-6 effect larger in ICI-treated vs. chemotherapy-treated patients",
+          "statistic": "HR 1.67 vs. 1.38",
+          "sourceRef": "p. 12, Subgroup analysis"
+        }
+      ],
+      "concepts": [
+        {
+          "name": "Effect modification",
+          "whyItMatters": "The IL-6/survival relationship differs by treatment type (ICI vs. chemo) — treatment may modify the effect rather than just confound it.",
+          "howToCheck": "Test an IL-6 × treatment interaction term if you have both treatment groups in your data.",
+          "datasetSupport": "not_supported"
+        },
+        {
+          "name": "Publication bias",
+          "whyItMatters": "Meta-analyses can overstate effects if null studies go unpublished.",
+          "howToCheck": "Paper reports a non-significant Egger's test (p=0.18) — read as reassuring but not definitive.",
+          "datasetSupport": "not_supported"
+        }
+      ],
+      "agentTrace": [
+        {
+          "agent": "Paper Agent",
+          "action": "Extracted meta-analysis methodology and pooled effect estimates",
+          "timestamp": "2026-05-18T14:02:00Z"
+        },
+        {
+          "agent": "Critic Agent",
+          "action": "Flagged paper as not directly replicable — recommended use as external benchmark only",
+          "timestamp": "2026-05-18T14:05:00Z"
+        }
+      ],
+      "suggestedQuestions": [
+        {
+          "question": "Can I replicate this paper?",
+          "answer": "No — this is a meta-analysis of 24 published studies, not a primary dataset. Use its pooled hazard ratios as an external benchmark to compare against your own cohort's effect estimates instead.",
+          "sources": "p. 2, Study design",
+          "confidence": "high",
+          "relatedActions": []
+        },
+        {
+          "question": "What are the major limitations?",
+          "answer": "Heterogeneous IL-6 cutoffs across studies (I²=43%), most included studies were retrospective, and limited data on combined multi-marker models.",
+          "sources": "p. 14, Limitations",
+          "confidence": "medium",
+          "relatedActions": []
+        }
+      ]
+    },
+    {
+      "id": "paper_003",
+      "projectId": "project_001",
+      "title": "Cox Proportional Hazards Models in Clinical Oncology Trials",
+      "authors": "Williams, P., Osei, K., Tanaka, M.",
+      "journal": "Statistics in Medicine",
+      "year": 2022,
+      "doi": "10.1002/sim.9512",
+      "pageCount": 18,
+      "uploadedAt": "2026-06-01",
+      "status": "pending",
+      "libraryStatus": "processing"
+    },
+    {
+      "id": "paper_101",
+      "projectId": "project_002",
+      "title": "Depressive Symptom Severity and Glycemic Control in Adults with Type 2 Diabetes",
+      "authors": "Okonkwo, C., Reyes, M., Lindqvist, S.",
+      "journal": "Diabetes Care",
+      "year": 2025,
+      "doi": "10.2337/dc25-0417",
+      "pageCount": 11,
+      "uploadedAt": "2026-06-20",
+      "status": "processed",
+      "libraryStatus": "extracted",
+      "extractionCompletedAt": "2026-06-20T15:40:00Z",
+      "extractionConfidence": "medium",
+      "methodsPageRef": "p. 2–3, Methods section",
+      "abstract": "Background: Depression is common among adults with type 2 diabetes (T2D) and has been linked to poorer self-management. We examined whether depressive symptom severity is cross-sectionally associated with glycemic control. Methods: We analyzed 150 adults with T2D from a single outpatient endocrinology clinic. Depressive symptoms were measured via PHQ-9; glycemic control was defined as HbA1c ≥8%. Logistic regression estimated the association between PHQ-9 score and poor glycemic control, adjusting for medication adherence, age, and diabetes duration. Results: Higher PHQ-9 scores were associated with greater odds of poor glycemic control (OR 1.09 per point, 95% CI 1.02–1.17, p=0.01), attenuated but not eliminated after adjusting for medication adherence. Conclusions: Depressive symptom severity is independently associated with glycemic control in T2D and may partly act through reduced adherence.",
+      "researchQuestion": "Is depressive symptom severity (PHQ-9 score) associated with poor glycemic control (HbA1c ≥8%) in adults with type 2 diabetes, independent of medication adherence?",
+      "studyDesign": "Cross-sectional observational study at a single outpatient endocrinology clinic",
+      "studyType": "Cross-sectional",
+      "population": "Adults with type 2 diabetes attending a single outpatient endocrinology clinic",
+      "sampleSize": 150,
+      "primaryEndpoint": "Poor glycemic control (HbA1c ≥8%)",
+      "variables": [
+        {
+          "name": "phq9_score",
+          "role": "independent",
+          "type": "continuous",
+          "description": "PHQ-9 depressive symptom severity score (0–27)",
+          "datasetMatch": "phq9_score"
+        },
+        {
+          "name": "hba1c",
+          "role": "primary_outcome",
+          "type": "continuous",
+          "description": "Glycated hemoglobin (%)",
+          "unit": "%",
+          "datasetMatch": "hba1c"
+        },
+        {
+          "name": "medication_adherence",
+          "role": "covariate",
+          "type": "continuous",
+          "description": "Self-reported medication adherence (%)",
+          "unit": "%",
+          "datasetMatch": "medication_adherence_pct"
+        },
+        {
+          "name": "age",
+          "role": "covariate",
+          "type": "continuous",
+          "description": "Age",
+          "unit": "years",
+          "datasetMatch": "age"
+        },
+        {
+          "name": "diabetes_duration",
+          "role": "covariate",
+          "type": "continuous",
+          "description": "Years since T2D diagnosis",
+          "unit": "years",
+          "datasetMatch": "diabetes_duration_years"
+        }
+      ],
+      "statisticalMethods": [
+        "Logistic regression",
+        "Chi-square test",
+        "Spearman correlation"
+      ],
+      "primaryAnalysis": "Logistic regression with poor glycemic control (HbA1c ≥8%) as the outcome, PHQ-9 score as the primary predictor, adjusted for medication adherence, age, and diabetes duration.",
+      "softwareUsed": [
+        "R 4.3.1"
+      ],
+      "keyFindings": [
+        "Higher PHQ-9 score associated with greater odds of poor glycemic control: OR 1.09 per point (95% CI 1.02–1.17), p=0.01",
+        "Association attenuated but not eliminated after adjusting for medication adherence"
+      ],
+      "limitations": [
+        "Cross-sectional design — cannot establish temporal or causal direction",
+        "Single-clinic sample — limited generalizability",
+        "Medication adherence self-reported, not objectively measured"
+      ],
+      "conclusions": "Depressive symptom severity is independently associated with glycemic control in adults with type 2 diabetes, partly but not fully explained by medication adherence.",
+      "datasetConnectionSummary": "Your dataset (t2d_depression_cohort_150_patients.csv) maps directly to this paper's core variables — phq9_score, hba1c, medication_adherence_pct, age, and diabetes_duration_years are all present.",
+      "replicabilityScore": 82,
+      "variableMatchCount": 5,
+      "variableMissingCount": 0,
+      "keyTakeaways": {
+        "clinicalRelevance": "PHQ-9 is a quick, widely-used screening tool — if this association replicates, routine depression screening could flag patients at risk of poor glycemic control.",
+        "statisticalApproach": "Straightforward logistic regression with a binary glycemic-control outcome — directly reusable on your cross-sectional dataset.",
+        "reusable": "The adjusted model structure (PHQ-9 + adherence + age + duration) maps directly onto your dataset's columns.",
+        "caution": "Cross-sectional design — treat the association as hypothesis-generating, not causal."
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "id": "dataset_001",
+      "projectId": "project_001",
+      "filename": "nsclc_cohort_312_patients.csv",
+      "uploadedAt": "2026-05-14",
+      "status": "profiled",
+      "libraryStatus": "used_in_analysis",
+      "version": "v1 — raw",
+      "rows": 312,
+      "columns": 28,
+      "fileSizeKb": 184,
+      "patients": 312,
+      "timepoints": 1,
+      "summary": "Your dataset appears to contain 312 patients with NSCLC receiving first-line immunotherapy. It includes 6 demographic variables, 4 biomarkers, 2 time-to-event outcome pairs, and 1 treatment arm indicator. pfs_months and os_months appear to be time-to-event data, with pfs_event and os_event as their censoring indicators. This structure closely matches the variables referenced in your linked paper (Chen et al., 2024).",
+      "structureType": "Time-to-event",
+      "structureNotes": "Detected one row per patient (cross-sectional baseline) with two paired survival endpoints (PFS, OS). No repeated measures or visit-level structure detected — this is not longitudinal data.",
+      "variables": [
+        {
+          "name": "patient_id",
+          "type": "identifier",
+          "role": "patient_id",
+          "missingPercent": 0,
+          "range": "1–312",
+          "usedAs": "patient identifier",
+          "summary": "Unique patient identifier"
+        },
+        {
+          "name": "age",
+          "type": "continuous",
+          "role": "covariate",
+          "missingPercent": 0,
+          "range": "34–88",
+          "usedAs": "covariate (age)",
+          "summary": "Mean 63.4 ± 9.1 years",
+          "distribution": {
+            "bins": [
+              4,
+              18,
+              42,
+              68,
+              91,
+              64,
+              21,
+              4
+            ],
+            "binLabels": [
+              "34-40",
+              "41-47",
+              "48-54",
+              "55-61",
+              "62-68",
+              "69-75",
+              "76-82",
+              "83-88"
+            ],
+            "boxplot": {
+              "min": 34,
+              "q1": 57,
+              "median": 63,
+              "q3": 70,
+              "max": 88
+            }
+          }
+        },
+        {
+          "name": "sex",
+          "type": "binary",
+          "role": "demographic",
+          "missingPercent": 0,
+          "range": "M/F",
+          "usedAs": "covariate (sex)",
+          "summary": "58% male, 42% female",
+          "distribution": {
+            "valueCounts": [
+              {
+                "label": "Male",
+                "count": 181
+              },
+              {
+                "label": "Female",
+                "count": 131
+              }
+            ]
+          }
+        },
+        {
+          "name": "stage_iv",
+          "type": "binary",
+          "role": "covariate",
+          "missingPercent": 1.3,
+          "range": "0/1",
+          "usedAs": "covariate (stage IV flag)",
+          "summary": "71% stage IV, 29% stage IIIB",
+          "distribution": {
+            "valueCounts": [
+              {
+                "label": "Stage IV",
+                "count": 222
+              },
+              {
+                "label": "Stage IIIB",
+                "count": 90
+              }
+            ]
+          }
+        },
+        {
+          "name": "histology",
+          "type": "categorical",
+          "role": "covariate",
+          "missingPercent": 2.6,
+          "range": "adenocarcinoma / squamous / other",
+          "usedAs": "covariate (histology)",
+          "summary": "68% adenocarcinoma, 29% squamous, 3% other",
+          "distribution": {
+            "valueCounts": [
+              {
+                "label": "Adenocarcinoma",
+                "count": 212
+              },
+              {
+                "label": "Squamous",
+                "count": 90
+              },
+              {
+                "label": "Other",
+                "count": 9
+              }
+            ]
+          }
+        },
+        {
+          "name": "treatment_arm",
+          "type": "categorical",
+          "role": "treatment_group",
+          "missingPercent": 0,
+          "range": "Pembrolizumab",
+          "usedAs": "treatment group",
+          "summary": "Pembrolizumab monotherapy (100%)"
+        },
+        {
+          "name": "il6_baseline",
+          "type": "continuous",
+          "role": "biomarker",
+          "missingPercent": 0.6,
+          "range": "2.1–142.7 pg/mL",
+          "usedAs": "exposure (biomarker)",
+          "summary": "Median 18.2 pg/mL (IQR 11.4–29.8)",
+          "outlierCount": 6,
+          "distribution": {
+            "bins": [
+              98,
+              92,
+              64,
+              28,
+              12,
+              8,
+              4,
+              4
+            ],
+            "binLabels": [
+              "2-20",
+              "20-38",
+              "38-56",
+              "56-74",
+              "74-92",
+              "92-110",
+              "110-128",
+              "128-143"
+            ],
+            "boxplot": {
+              "min": 2.1,
+              "q1": 11.4,
+              "median": 18.2,
+              "q3": 29.8,
+              "max": 142.7
+            }
+          }
+        },
+        {
+          "name": "crp_baseline",
+          "type": "continuous",
+          "role": "biomarker",
+          "missingPercent": 3.2,
+          "range": "0.5–98.2 mg/L",
+          "usedAs": "covariate (biomarker)",
+          "summary": "Median 6.1 mg/L (IQR 2.8–14.3)",
+          "outlierCount": 9,
+          "distribution": {
+            "boxplot": {
+              "min": 0.5,
+              "q1": 2.8,
+              "median": 6.1,
+              "q3": 14.3,
+              "max": 98.2
+            }
+          }
+        },
+        {
+          "name": "pdl1_tps",
+          "type": "continuous",
+          "role": "biomarker",
+          "missingPercent": 18,
+          "range": "0–100%",
+          "usedAs": "covariate (biomarker)",
+          "summary": "Median 65% (IQR 50–85)",
+          "clinicalRangeFlag": "Missing in 18% of patients — matches limitation noted in linked paper"
+        },
+        {
+          "name": "ecog_ps",
+          "type": "ordinal",
+          "role": "covariate",
+          "missingPercent": 22.4,
+          "range": "0–2",
+          "usedAs": "covariate (performance status)",
+          "summary": "0: 41%, 1: 47%, 2: 12%",
+          "clinicalRangeFlag": "Not present in linked paper's dataset assumptions",
+          "distribution": {
+            "valueCounts": [
+              {
+                "label": "0",
+                "count": 100
+              },
+              {
+                "label": "1",
+                "count": 114
+              },
+              {
+                "label": "2",
+                "count": 29
+              }
+            ]
+          }
+        },
+        {
+          "name": "pfs_months",
+          "type": "continuous",
+          "role": "outcome",
+          "missingPercent": 0,
+          "range": "0.8–34.2 months",
+          "usedAs": "survival time (PFS)",
+          "summary": "Median follow-up 11.2 months"
+        },
+        {
+          "name": "pfs_event",
+          "type": "binary",
+          "role": "event_indicator",
+          "missingPercent": 0,
+          "range": "0/1",
+          "usedAs": "event (progression/death)",
+          "summary": "62% experienced progression/death"
+        },
+        {
+          "name": "os_months",
+          "type": "continuous",
+          "role": "outcome",
+          "missingPercent": 0,
+          "range": "0.8–38.6 months",
+          "usedAs": "survival time (OS)",
+          "summary": "Median follow-up 18.4 months"
+        },
+        {
+          "name": "os_event",
+          "type": "binary",
+          "role": "event_indicator",
+          "missingPercent": 0,
+          "range": "0/1",
+          "usedAs": "event (death)",
+          "summary": "34% deceased"
+        },
+        {
+          "name": "enrollment_date",
+          "type": "date",
+          "role": "date",
+          "missingPercent": 0,
+          "range": "2019-02-11 to 2022-08-30",
+          "usedAs": "metadata",
+          "summary": "Enrollment date range"
+        },
+        {
+          "name": "physician_notes",
+          "type": "text",
+          "role": "text",
+          "missingPercent": 12,
+          "range": "—",
+          "usedAs": "free text (not used in analysis)",
+          "summary": "Unstructured clinician notes"
+        },
+        {
+          "name": "internal_batch_id",
+          "type": "identifier",
+          "role": "ignore",
+          "missingPercent": 0,
+          "range": "—",
+          "usedAs": "excluded from analysis",
+          "summary": "Internal lab batch tracking code"
+        }
+      ],
+      "totalMissingPercent": 4.2,
+      "duplicateRows": 0,
+      "qualityChecks": [
+        {
+          "category": "missingness",
+          "variable": "ecog_ps",
+          "issue": "22.4% missing — exceeds typical 10% threshold for safe imputation",
+          "severity": "warning"
+        },
+        {
+          "category": "missingness",
+          "variable": "pdl1_tps",
+          "issue": "18.0% missing — matches a documented limitation in the linked paper",
+          "severity": "warning"
+        },
+        {
+          "category": "outliers",
+          "variable": "il6_baseline",
+          "issue": "6 outlier values detected (>3×IQR)",
+          "rowsAffected": 6,
+          "severity": "info"
+        },
+        {
+          "category": "outliers",
+          "variable": "crp_baseline",
+          "issue": "9 outlier values detected (>3×IQR)",
+          "rowsAffected": 9,
+          "severity": "info"
+        },
+        {
+          "category": "duplicates",
+          "issue": "No duplicate patient_id values detected",
+          "severity": "info"
+        },
+        {
+          "category": "clinical_range",
+          "variable": "age",
+          "issue": "No impossible ages detected (range 18–120 enforced)",
+          "severity": "info"
+        },
+        {
+          "category": "clinical_range",
+          "variable": "pfs_months",
+          "issue": "No negative survival times detected",
+          "severity": "info"
+        },
+        {
+          "category": "invalid_values",
+          "variable": "pfs_event",
+          "issue": "Censoring indicator confirmed strictly binary (0/1)",
+          "severity": "info"
+        },
+        {
+          "category": "inconsistent_coding",
+          "variable": "treatment_arm",
+          "issue": "Treatment labels consistent across all rows (single arm: Pembrolizumab)",
+          "severity": "info"
+        },
+        {
+          "category": "type_problems",
+          "variable": "enrollment_date",
+          "issue": "All values parsed successfully as dates",
+          "severity": "info"
+        },
+        {
+          "category": "data_leakage",
+          "issue": "No post-outcome variables detected among candidate predictors",
+          "severity": "info"
+        },
+        {
+          "category": "small_groups",
+          "variable": "histology",
+          "issue": "\"Other\" histology category contains only 9 patients (2.9%) — consider grouping with squamous or excluding",
+          "rowsAffected": 9,
+          "severity": "warning"
+        }
+      ],
+      "groupBalance": {
+        "label": "Disease stage",
+        "entries": [
+          {
+            "group": "Stage IV",
+            "n": 222,
+            "percent": 71
+          },
+          {
+            "group": "Stage IIIB",
+            "n": 90,
+            "percent": 29
+          }
+        ]
+      },
+      "groupBalanceChecks": {
+        "label": "Balance across disease stage (IIIB vs. IV)",
+        "checks": [
+          {
+            "variable": "age",
+            "status": "balanced",
+            "detail": "Mean age similar between stage IIIB (62.8) and stage IV (63.7)"
+          },
+          {
+            "variable": "sex",
+            "status": "balanced",
+            "detail": "Sex distribution similar across stage groups (57% vs. 59% male)"
+          },
+          {
+            "variable": "il6_baseline",
+            "status": "imbalanced",
+            "detail": "Median IL-6 higher in stage IV patients (19.8 vs. 14.2 pg/mL) — consider as a confounder"
+          },
+          {
+            "variable": "pdl1_tps",
+            "status": "missingness_differs",
+            "detail": "PD-L1 TPS missing in 24% of stage IV patients vs. 8% of stage IIIB"
+          }
+        ]
+      },
+      "correlations": [
+        {
+          "varA": "il6_baseline",
+          "varB": "crp_baseline",
+          "r": 0.61
+        },
+        {
+          "varA": "il6_baseline",
+          "varB": "pfs_months",
+          "r": -0.34
+        },
+        {
+          "varA": "crp_baseline",
+          "varB": "pfs_months",
+          "r": -0.28
+        },
+        {
+          "varA": "age",
+          "varB": "ecog_ps",
+          "r": 0.22
+        },
+        {
+          "varA": "pdl1_tps",
+          "varB": "pfs_months",
+          "r": 0.18
+        },
+        {
+          "varA": "stage_iv",
+          "varB": "os_months",
+          "r": -0.31
+        }
+      ],
+      "cleaningSteps": [
+        {
+          "id": "s1",
+          "label": "Rename columns to snake_case",
+          "description": "Standardize raw export column headers",
+          "status": "applied"
+        },
+        {
+          "id": "s2",
+          "label": "Recode treatment labels",
+          "description": "Normalize 'Pembro' / 'pembrolizumab' / 'PEMBRO' to a single consistent label",
+          "status": "applied"
+        },
+        {
+          "id": "s3",
+          "label": "Convert pfs_event to binary",
+          "description": "Map 'progressed' / 'deceased' / 'alive' text values to 0/1",
+          "status": "applied"
+        },
+        {
+          "id": "s4",
+          "label": "Drop rows missing pfs_months",
+          "description": "Remove patients with no recorded follow-up time",
+          "status": "pending"
+        },
+        {
+          "id": "s5",
+          "label": "Create age_group variable",
+          "description": "Bucket age into <50 / 50–65 / >65 for stratified analyses",
+          "status": "pending"
+        },
+        {
+          "id": "s6",
+          "label": "Save as analysis-ready dataset",
+          "description": "Write nsclc_cohort_312_patients_cleaned_v2.csv",
+          "status": "pending"
+        }
+      ],
+      "analysisReadiness": [
+        {
+          "analysisType": "Baseline Table",
+          "status": "ready",
+          "missingPiece": "None",
+          "requiredVariables": [
+            "age",
+            "sex",
+            "stage_iv"
+          ],
+          "matchedVariables": [
+            "age",
+            "sex",
+            "stage_iv"
+          ],
+          "missingVariables": [],
+          "warnings": []
+        },
+        {
+          "analysisType": "Kaplan-Meier + Log-rank",
+          "status": "ready",
+          "missingPiece": "None",
+          "requiredVariables": [
+            "pfs_months",
+            "pfs_event",
+            "il6_baseline"
+          ],
+          "matchedVariables": [
+            "pfs_months",
+            "pfs_event",
+            "il6_baseline"
+          ],
+          "missingVariables": [],
+          "warnings": []
+        },
+        {
+          "analysisType": "Cox Regression",
+          "status": "warning",
+          "missingPiece": "ECOG performance status",
+          "requiredVariables": [
+            "pfs_months",
+            "pfs_event",
+            "il6_baseline",
+            "age",
+            "sex",
+            "stage_iv",
+            "ecog_ps"
+          ],
+          "matchedVariables": [
+            "pfs_months",
+            "pfs_event",
+            "il6_baseline",
+            "age",
+            "sex",
+            "stage_iv"
+          ],
+          "missingVariables": [
+            "ecog_ps"
+          ],
+          "warnings": [
+            "Proportional hazards assumption should be checked before finalizing"
+          ]
+        },
+        {
+          "analysisType": "Logistic Regression",
+          "status": "ready",
+          "missingPiece": "None",
+          "requiredVariables": [
+            "pfs_event",
+            "il6_baseline",
+            "age"
+          ],
+          "matchedVariables": [
+            "pfs_event",
+            "il6_baseline",
+            "age"
+          ],
+          "missingVariables": [],
+          "warnings": []
+        },
+        {
+          "analysisType": "Repeated Measures Model",
+          "status": "blocked",
+          "missingPiece": "No repeated timepoint variable",
+          "requiredVariables": [
+            "visit/time index",
+            "outcome measured per visit"
+          ],
+          "matchedVariables": [],
+          "missingVariables": [
+            "visit index",
+            "repeated outcome measurements"
+          ],
+          "warnings": [
+            "Dataset is baseline + single follow-up endpoint — no repeated-measures structure detected"
+          ]
+        },
+        {
+          "analysisType": "Propensity Score Matching",
+          "status": "warning",
+          "missingPiece": "Only one treatment arm present",
+          "requiredVariables": [
+            "treatment arm (2+ levels)",
+            "covariates"
+          ],
+          "matchedVariables": [
+            "age",
+            "sex",
+            "stage_iv"
+          ],
+          "missingVariables": [
+            "a comparator treatment arm"
+          ],
+          "warnings": [
+            "All patients received the same treatment — PSM requires at least two groups to balance"
+          ]
+        }
+      ],
+      "paperAlignment": [
+        {
+          "paperVariable": "overall survival",
+          "datasetMatch": "os_months + os_event",
+          "status": "matched"
+        },
+        {
+          "paperVariable": "baseline serum IL-6",
+          "datasetMatch": "il6_baseline",
+          "status": "matched"
+        },
+        {
+          "paperVariable": "ECOG performance status",
+          "datasetMatch": "—",
+          "status": "missing"
+        },
+        {
+          "paperVariable": "disease stage",
+          "datasetMatch": "stage_iv",
+          "status": "needs_review"
+        },
+        {
+          "paperVariable": "PD-L1 TPS",
+          "datasetMatch": "pdl1_tps",
+          "status": "matched"
+        }
+      ],
+      "suggestedQuestions": [
+        {
+          "question": "What variables look like outcomes?",
+          "answer": "pfs_months/pfs_event and os_months/os_event are your two outcome pairs — both are time-to-event endpoints with paired censoring indicators.",
+          "confidence": "high",
+          "relatedActions": [
+            "Map Variables"
+          ]
+        },
+        {
+          "question": "Which variables have the most missing data?",
+          "answer": "ecog_ps (22.4%) and pdl1_tps (18.0%) have the most missingness — both exceed the typical 10% threshold for safe imputation.",
+          "confidence": "high",
+          "relatedActions": []
+        },
+        {
+          "question": "Can this dataset support survival analysis?",
+          "answer": "Yes. Both PFS and OS have valid time + event indicator pairs, no negative survival times, and event indicators are confirmed strictly binary.",
+          "confidence": "high",
+          "relatedActions": [
+            "Create Analysis"
+          ]
+        },
+        {
+          "question": "What cleaning steps should I do first?",
+          "answer": "Drop rows missing pfs_months and create an age_group variable before running stratified analyses — both are still pending in the cleaning pipeline.",
+          "confidence": "medium",
+          "relatedActions": []
+        },
+        {
+          "question": "Which variables match the paper?",
+          "answer": "il6_baseline and pdl1_tps match directly. stage_iv needs review since the paper used a 3-level stage variable. ECOG score has no match in this dataset.",
+          "confidence": "high",
+          "relatedActions": [
+            "Map to Paper"
+          ]
+        },
+        {
+          "question": "What analyses are ready to run?",
+          "answer": "Baseline Table, Kaplan-Meier + Log-rank, and Logistic Regression are fully ready. Cox Regression works but is missing ECOG as a covariate.",
+          "confidence": "high",
+          "relatedActions": [
+            "Create Analysis"
+          ]
+        }
+      ],
+      "agentTrace": [
+        {
+          "agent": "Data Agent",
+          "action": "Profiled schema — detected 28 columns, inferred types for 17 key variables",
+          "timestamp": "2026-05-14T09:02:00Z"
+        },
+        {
+          "agent": "Data Agent",
+          "action": "Flagged ecog_ps and pdl1_tps as high-missingness variables",
+          "timestamp": "2026-05-14T09:04:00Z"
+        },
+        {
+          "agent": "Critic Agent",
+          "action": "Confirmed pfs_event and os_event are strictly binary censoring indicators",
+          "timestamp": "2026-05-14T09:05:00Z"
+        },
+        {
+          "agent": "Memory Agent",
+          "action": "Matched 8 of 12 paper variables from Chen et al. 2024 to dataset columns",
+          "timestamp": "2026-05-14T09:07:00Z"
+        }
+      ],
+      "dataQualityScore": 84,
+      "analysisReadinessScore": 78,
+      "missingnessRisk": "moderate",
+      "variableMappingProgress": 67
+    },
+    {
+      "id": "dataset_001_v2",
+      "projectId": "project_001",
+      "filename": "nsclc_cohort_312_patients_cleaned_v2.csv",
+      "uploadedAt": "2026-06-17",
+      "status": "profiled",
+      "libraryStatus": "analysis_ready",
+      "version": "v2 — cleaned",
+      "derivedFrom": "dataset_001",
+      "rows": 308,
+      "columns": 30,
+      "fileSizeKb": 191,
+      "patients": 308,
+      "timepoints": 1,
+      "summary": "Cleaned, analysis-ready version of the raw cohort: treatment labels normalized, pfs_event recoded to strict binary, age_group derived, and 4 rows with missing pfs_months dropped. Raw v1 is preserved untouched.",
+      "dataQualityScore": 91,
+      "analysisReadinessScore": 92,
+      "missingnessRisk": "low",
+      "variableMappingProgress": 67
+    },
+    {
+      "id": "dataset_002",
+      "projectId": "project_001",
+      "filename": "cohort_validation_set_88.xlsx",
+      "uploadedAt": "2026-06-16",
+      "status": "pending",
+      "libraryStatus": "uploaded",
+      "version": "v1 — raw",
+      "rows": 88,
+      "columns": 19,
+      "fileSizeKb": 52
+    },
+    {
+      "id": "dataset_101",
+      "projectId": "project_002",
+      "filename": "t2d_depression_cohort_150_patients.csv",
+      "uploadedAt": "2026-06-21",
+      "status": "profiled",
+      "libraryStatus": "analysis_ready",
+      "version": "v1 — raw",
+      "rows": 150,
+      "columns": 14,
+      "fileSizeKb": 61,
+      "patients": 150,
+      "timepoints": 1,
+      "summary": "150 adults with type 2 diabetes from a single outpatient endocrinology clinic. Includes PHQ-9 depressive symptom score, HbA1c, medication adherence percentage, age, sex, and diabetes duration. Cross-sectional — one row per patient.",
+      "structureType": "Cross-sectional",
+      "structureNotes": "One row per patient, no repeated measures or visit-level structure detected.",
+      "variables": [
+        {
+          "name": "patient_id",
+          "type": "identifier",
+          "role": "patient_id",
+          "missingPercent": 0,
+          "range": "1–150",
+          "usedAs": "patient identifier",
+          "summary": "Unique patient identifier"
+        },
+        {
+          "name": "age",
+          "type": "continuous",
+          "role": "covariate",
+          "missingPercent": 0,
+          "range": "31–79",
+          "usedAs": "covariate (age)",
+          "summary": "Mean 58.2 ± 11.4 years"
+        },
+        {
+          "name": "sex",
+          "type": "binary",
+          "role": "demographic",
+          "missingPercent": 0,
+          "range": "M/F",
+          "usedAs": "covariate (sex)",
+          "summary": "47% male, 53% female"
+        },
+        {
+          "name": "phq9_score",
+          "type": "continuous",
+          "role": "biomarker",
+          "missingPercent": 2,
+          "range": "0–24",
+          "usedAs": "exposure (depressive symptom severity)",
+          "summary": "Median 7 (IQR 3–12)"
+        },
+        {
+          "name": "hba1c",
+          "type": "continuous",
+          "role": "outcome",
+          "missingPercent": 0,
+          "range": "5.4–11.2%",
+          "usedAs": "glycemic control outcome",
+          "summary": "Median 7.6% (IQR 6.8–8.9)"
+        },
+        {
+          "name": "medication_adherence_pct",
+          "type": "continuous",
+          "role": "covariate",
+          "missingPercent": 4.7,
+          "range": "40–100%",
+          "usedAs": "covariate (adherence)",
+          "summary": "Median 82% (IQR 68–93)"
+        },
+        {
+          "name": "diabetes_duration_years",
+          "type": "continuous",
+          "role": "covariate",
+          "missingPercent": 0,
+          "range": "0.5–28",
+          "usedAs": "covariate (disease duration)",
+          "summary": "Median 6.5 years (IQR 3–11)"
+        }
+      ],
+      "totalMissingPercent": 3.1,
+      "duplicateRows": 0,
+      "dataQualityScore": 88,
+      "analysisReadinessScore": 85,
+      "missingnessRisk": "low",
+      "variableMappingProgress": 100,
+      "paperAlignment": [
+        {
+          "paperVariable": "phq9_score",
+          "datasetMatch": "phq9_score",
+          "status": "matched"
+        },
+        {
+          "paperVariable": "hba1c",
+          "datasetMatch": "hba1c",
+          "status": "matched"
+        },
+        {
+          "paperVariable": "medication_adherence",
+          "datasetMatch": "medication_adherence_pct",
+          "status": "matched"
+        }
+      ]
+    }
+  ],
+  "researchQuestions": [
+    {
+      "id": "rq_001",
+      "projectId": "project_001",
+      "paperId": "paper_001",
+      "question": "Are baseline serum IL-6 levels independently associated with progression-free survival after adjusting for age, sex, and disease stage?",
+      "createdAt": "2026-05-14",
+      "status": "used_in_analysis",
+      "questionType": "Survival",
+      "population": "All 312 patients in the NSCLC cohort receiving first-line pembrolizumab monotherapy",
+      "dependentVariable": "pfs_months (time-to-event), censored by pfs_event",
+      "independentVariable": "il6_baseline (continuous, log-transformed)",
+      "covariates": [
+        "age",
+        "sex",
+        "stage_iv"
+      ],
+      "hypothesis": "Higher baseline serum IL-6 is independently associated with shorter progression-free survival after adjusting for age, sex, and disease stage.",
+      "endpoint": "Progression-free survival (PFS) per RECIST 1.1",
+      "statisticalFamily": "Time-to-event / survival analysis",
+      "primaryAnalysis": "Multivariable Cox proportional hazards regression — IL-6 adjusted for age, sex, and stage_iv",
+      "alternativeAnalyses": [
+        "Kaplan-Meier survival curves stratified by IL-6 tertile, with log-rank test",
+        "Logistic regression on a fixed 6-month progression cutoff, as a simplification if the proportional hazards assumption fails"
+      ],
+      "assumptionsToCheck": [
+        "Proportional hazards assumption (Schoenfeld residuals)",
+        "No excessive multicollinearity among covariates (VIF)",
+        "Sufficient events-per-variable ratio for stable Cox estimates",
+        "Linearity of log-hazard for continuous IL-6, or consider categorizing into tertiles"
+      ],
+      "nullHypothesis": "There is no association between baseline serum IL-6 and progression-free survival after adjusting for age, sex, and disease stage.",
+      "alternativeHypothesis": "Higher baseline serum IL-6 is associated with shorter progression-free survival after adjusting for age, sex, and disease stage.",
+      "expectedDirection": "Higher IL-6 → shorter PFS (positive hazard ratio, HR > 1)",
+      "feasibility": {
+        "paperSupport": "strong",
+        "datasetSupport": "strong",
+        "statisticalViability": "strong",
+        "clinicalRelevance": "strong",
+        "riskOfBias": "moderate",
+        "overall": "Feasible — ready for analysis. This is a direct replication of the paper's core finding. Retrospective, two-center design means results should be read as hypothesis-confirming, not definitive causal evidence.",
+        "breakdown": {
+          "outcome": "matched",
+          "exposure": "matched",
+          "covariatesMatched": "3/5 (ECOG, PD-L1 TPS missing)",
+          "sampleSize": "acceptable",
+          "missingness": "warning",
+          "designFit": "Observational retrospective cohort — supports association, not causal treatment-effect claims",
+          "recommendedAnalysisNote": "Adjusted Cox regression; run a sensitivity analysis noting ECOG/PD-L1 are unavailable"
+        }
+      },
+      "evidenceMap": [
+        {
+          "section": "Abstract",
+          "quote": "We investigated whether baseline IL-6 independently predicts progression-free survival after adjusting for established clinical confounders.",
+          "pageRef": "p. 1",
+          "confidence": "high"
+        },
+        {
+          "section": "Methods",
+          "quote": "Cox proportional hazards models were used to estimate hazard ratios adjusted for age, sex, ECOG performance status, and disease stage.",
+          "pageRef": "p. 3",
+          "confidence": "high"
+        },
+        {
+          "section": "Table 1",
+          "quote": "Baseline characteristics stratified by IL-6 tertile.",
+          "pageRef": "p. 4",
+          "confidence": "medium"
+        },
+        {
+          "section": "Results",
+          "quote": "Higher baseline IL-6 was independently associated with shorter PFS (HR 1.38, 95% CI 1.08–1.76, p = 0.009).",
+          "pageRef": "p. 7",
+          "confidence": "high"
+        }
+      ],
+      "limitations": [
+        "Retrospective design — potential selection bias",
+        "Two-center study — may limit generalizability",
+        "IL-6 measured at a single baseline timepoint",
+        "PD-L1 TPS missing in 18% of patients"
+      ],
+      "relatedConcepts": [
+        {
+          "name": "Confounding by indication",
+          "whyItMatters": "Treatment assignment or biomarker testing may correlate with disease severity, distorting the IL-6/PFS association.",
+          "howToCheck": "Compare unadjusted vs. adjusted hazard ratios — a large shift suggests confounding."
+        },
+        {
+          "name": "Competing risks",
+          "whyItMatters": "Death from causes unrelated to disease progression could distort a naive PFS estimate.",
+          "howToCheck": "Confirm pfs_event distinguishes progression/death from other censoring reasons."
+        },
+        {
+          "name": "Effect modification",
+          "whyItMatters": "The IL-6 effect on survival may differ by disease stage or treatment exposure.",
+          "howToCheck": "Test an IL-6 × stage interaction term."
+        }
+      ],
+      "suggestedPapers": [
+        {
+          "title": "Inflammatory Markers and Overall Survival in Advanced Lung Cancer: A Meta-Analysis",
+          "whyItHelps": "Provides pooled external benchmark hazard ratios for IL-6 and survival across 24 studies.",
+          "howItConnects": "Your adjusted HR (1.42 from analysis_003) can be compared against this paper's pooled estimate (1.52) for external validity."
+        }
+      ],
+      "versions": [
+        {
+          "label": "v1",
+          "question": "Does IL-6 predict survival?"
+        },
+        {
+          "label": "v2",
+          "question": "Does baseline serum IL-6 predict progression-free survival?"
+        },
+        {
+          "label": "v3 (current)",
+          "question": "Are baseline serum IL-6 levels independently associated with progression-free survival after adjusting for age, sex, and disease stage?"
+        }
+      ],
+      "agentTrace": [
+        {
+          "agent": "Planner Agent",
+          "action": "Parsed research question into dependent/independent variables and covariates",
+          "timestamp": "2026-05-14T09:58:00Z"
+        },
+        {
+          "agent": "Stats Agent",
+          "action": "Recommended Cox regression and Kaplan-Meier as primary/alternative analyses",
+          "timestamp": "2026-05-15T09:58:00Z"
+        },
+        {
+          "agent": "Critic Agent",
+          "action": "Flagged missing ECOG and PD-L1 TPS as feasibility caveats",
+          "timestamp": "2026-05-15T10:00:00Z"
+        }
+      ],
+      "linkedAnalysisIds": [
+        "analysis_001",
+        "analysis_002",
+        "analysis_003"
+      ]
+    },
+    {
+      "id": "rq_002",
+      "projectId": "project_001",
+      "paperId": "paper_001",
+      "question": "Does CRP add independent prognostic value beyond IL-6 in a multivariate Cox model?",
+      "createdAt": "2026-06-10",
+      "status": "feasible_with_caveats",
+      "questionType": "Survival",
+      "population": "All 312 patients in the NSCLC cohort receiving first-line pembrolizumab monotherapy",
+      "dependentVariable": "pfs_months (time-to-event), censored by pfs_event",
+      "independentVariable": "crp_baseline (continuous)",
+      "covariates": [
+        "il6_baseline",
+        "age",
+        "sex",
+        "stage_iv"
+      ],
+      "hypothesis": "CRP remains a significant predictor of PFS after adjusting for IL-6 and clinical covariates.",
+      "endpoint": "Progression-free survival (PFS) per RECIST 1.1",
+      "statisticalFamily": "Time-to-event / survival analysis",
+      "primaryAnalysis": "Multivariable Cox model adding CRP to the existing IL-6-adjusted model, compared via likelihood ratio test",
+      "alternativeAnalyses": [
+        "Spearman correlation between IL-6 and CRP to check collinearity before fitting the combined model",
+        "Stratified analysis by CRP tertile alongside the existing IL-6 tertile grouping"
+      ],
+      "assumptionsToCheck": [
+        "Collinearity between IL-6 and CRP (r = 0.61 from prior correlation analysis — moderate, monitor VIF)",
+        "Proportional hazards assumption for the expanded model",
+        "Adequate sample size for an additional covariate (events-per-variable ratio)"
+      ],
+      "nullHypothesis": "CRP has no independent association with progression-free survival once IL-6 and clinical covariates are accounted for.",
+      "alternativeHypothesis": "CRP is independently associated with progression-free survival even after adjusting for IL-6, age, sex, and disease stage.",
+      "expectedDirection": "Higher CRP → shorter PFS, but effect may be attenuated by IL-6's overlapping signal",
+      "feasibility": {
+        "paperSupport": "moderate",
+        "datasetSupport": "strong",
+        "statisticalViability": "moderate",
+        "clinicalRelevance": "moderate",
+        "riskOfBias": "moderate",
+        "overall": "Feasible with caveats — the paper reports an IL-6/CRP correlation but doesn't run this exact combined model. Moderate collinearity (r=0.61) may inflate variance estimates; check VIF before interpreting the combined model.",
+        "breakdown": {
+          "outcome": "matched",
+          "exposure": "matched",
+          "covariatesMatched": "4/4 matched",
+          "sampleSize": "acceptable",
+          "missingness": "ok",
+          "designFit": "Observational retrospective cohort",
+          "recommendedAnalysisNote": "Likelihood ratio test comparing nested Cox models; check VIF for IL-6/CRP collinearity"
+        }
+      },
+      "evidenceMap": [
+        {
+          "section": "Results — secondary analyses",
+          "quote": "Spearman correlation between IL-6 and CRP: r = 0.61, p < 0.001.",
+          "pageRef": "p. 9",
+          "confidence": "high"
+        }
+      ],
+      "limitations": [
+        "Paper does not test a combined IL-6 + CRP model directly — this extends beyond what was reported"
+      ],
+      "relatedConcepts": [
+        {
+          "name": "Multicollinearity",
+          "whyItMatters": "IL-6 and CRP are correlated (r=0.61) — including both may make individual coefficients unstable.",
+          "howToCheck": "Compute variance inflation factors (VIF) for both biomarkers in the combined model."
+        }
+      ],
+      "suggestedPapers": [],
+      "agentTrace": [
+        {
+          "agent": "Planner Agent",
+          "action": "Parsed research question, identified CRP as new exposure with IL-6 added as covariate",
+          "timestamp": "2026-06-10T08:30:00Z"
+        },
+        {
+          "agent": "Critic Agent",
+          "action": "Flagged IL-6/CRP collinearity as a feasibility caveat",
+          "timestamp": "2026-06-10T08:32:00Z"
+        }
+      ],
+      "linkedAnalysisIds": [
+        "analysis_004"
+      ]
+    },
+    {
+      "id": "rq_101",
+      "projectId": "project_002",
+      "paperId": "paper_101",
+      "question": "Is depressive symptom severity (PHQ-9 score) associated with poor glycemic control (HbA1c ≥ 8%), independent of medication adherence?",
+      "createdAt": "2026-06-21",
+      "status": "feasible",
+      "questionType": "Association",
+      "population": "150 adults with type 2 diabetes from a single outpatient endocrinology clinic",
+      "dependentVariable": "hba1c (continuous) / poor glycemic control (HbA1c ≥8%, binary)",
+      "independentVariable": "phq9_score (continuous)",
+      "covariates": [
+        "medication_adherence_pct",
+        "age",
+        "diabetes_duration_years"
+      ],
+      "hypothesis": "Higher PHQ-9 score is independently associated with poor glycemic control after adjusting for medication adherence, age, and diabetes duration.",
+      "endpoint": "Poor glycemic control (HbA1c ≥8%)",
+      "statisticalFamily": "Logistic regression",
+      "primaryAnalysis": "Logistic regression — PHQ-9 predicting poor glycemic control, adjusted for medication adherence, age, and diabetes duration",
+      "alternativeAnalyses": [
+        "Linear regression with HbA1c as a continuous outcome"
+      ],
+      "assumptionsToCheck": [
+        "No excessive multicollinearity between PHQ-9 and adherence",
+        "Adequate events-per-variable ratio"
+      ],
+      "nullHypothesis": "There is no association between PHQ-9 score and poor glycemic control after adjusting for medication adherence, age, and diabetes duration.",
+      "alternativeHypothesis": "Higher PHQ-9 score is associated with greater odds of poor glycemic control after adjustment.",
+      "expectedDirection": "Higher PHQ-9 → higher odds of poor glycemic control (OR > 1)",
+      "feasibility": {
+        "paperSupport": "strong",
+        "datasetSupport": "strong",
+        "statisticalViability": "strong",
+        "clinicalRelevance": "moderate",
+        "riskOfBias": "moderate",
+        "overall": "Feasible — ready for analysis. Direct replication of the paper's core finding; all variables are matched in your dataset.",
+        "breakdown": {
+          "outcome": "matched",
+          "exposure": "matched",
+          "covariatesMatched": "3/3 matched",
+          "sampleSize": "acceptable",
+          "missingness": "ok",
+          "designFit": "Cross-sectional observational study — supports association, not causal claims",
+          "recommendedAnalysisNote": "Adjusted logistic regression, consistent with the paper's primary analysis"
+        }
+      },
+      "evidenceMap": [
+        {
+          "section": "Abstract",
+          "quote": "Higher PHQ-9 scores were associated with greater odds of poor glycemic control (OR 1.09 per point, 95% CI 1.02–1.17, p=0.01).",
+          "pageRef": "p. 1",
+          "confidence": "high"
+        }
+      ],
+      "limitations": [
+        "Cross-sectional design — cannot establish temporal or causal direction",
+        "Single-clinic sample — limited generalizability"
+      ],
+      "linkedAnalysisIds": [
+        "analysis_101"
+      ]
+    }
+  ],
+  "analyses": [
+    {
+      "id": "analysis_003",
+      "name": "Cox Regression — IL-6 adjusted for age, sex, stage",
+      "type": "Cox Proportional Hazards",
+      "status": "completed",
+      "runAt": "2026-06-16T14:32:00Z",
+      "agent": "Stats Agent",
+      "scriptUsed": "survival_cox_adjusted.py",
+      "provenance": "Rulebook + New reasoning",
+      "researchQuestionId": "rq_001",
+      "interpretation": "After adjusting for age, sex, and disease stage, each one-unit increase in log-transformed baseline IL-6 was associated with a 42% increase in the hazard of progression or death (HR 1.42). This effect is statistically significant (p = 0.006) and clinically meaningful, supporting IL-6 as an independent prognostic biomarker in this cohort — consistent with the linked paper's finding (HR 1.38, p = 0.009).",
+      "resultTable": {
+        "columns": [
+          "Variable",
+          "HR",
+          "95% CI",
+          "p-value"
+        ],
+        "rows": [
+          [
+            "il6_baseline (log)",
+            1.42,
+            "1.11–1.82",
+            "0.006"
+          ],
+          [
+            "age",
+            1.01,
+            "0.99–1.03",
+            "0.241"
+          ],
+          [
+            "sex (male)",
+            1.08,
+            "0.79–1.47",
+            "0.625"
+          ],
+          [
+            "stage_iv",
+            1.64,
+            "1.12–2.40",
+            "0.011"
+          ]
+        ]
+      },
+      "statisticalOutput": [
+        "Concordance index: 0.64",
+        "Likelihood ratio test: χ² = 18.3, df = 4, p < 0.001",
+        "Events: 194 of 312 patients (62.2%)",
+        "Log-transformation applied to il6_baseline to reduce right-skew"
+      ],
+      "assumptionsChecked": [
+        {
+          "name": "Proportional hazards (Schoenfeld residuals)",
+          "result": "pass",
+          "detail": "Global test p = 0.21 — no violation detected across covariates."
+        },
+        {
+          "name": "Multicollinearity (VIF)",
+          "result": "pass",
+          "detail": "All covariates VIF < 1.8 — no concerning collinearity."
+        },
+        {
+          "name": "Events-per-variable ratio",
+          "result": "pass",
+          "detail": "194 events / 4 covariates ≈ 48.5 — well above the conventional minimum of 10."
+        },
+        {
+          "name": "Linearity of log-hazard",
+          "result": "warning",
+          "detail": "Martingale residual plot shows mild non-linearity at high IL-6 values — consider a restricted cubic spline in a sensitivity analysis."
+        }
+      ],
+      "warnings": [
+        "ECOG performance status and PD-L1 TPS were not available in this dataset and could not be included as covariates, unlike the linked paper.",
+        "18% of patients are missing pdl1_tps — if added later, consider multiple imputation rather than complete-case analysis."
+      ],
+      "codeUsed": "import pandas as pd\nfrom lifelines import CoxPHFitter\n\ndf = pd.read_csv(\"nsclc_cohort_312_patients.csv\")\ndf[\"il6_log\"] = np.log(df[\"il6_baseline\"])\n\ncph = CoxPHFitter()\ncph.fit(\n    df[[\"pfs_months\", \"pfs_event\", \"il6_log\", \"age\", \"sex\", \"stage_iv\"]],\n    duration_col=\"pfs_months\",\n    event_col=\"pfs_event\",\n)\ncph.print_summary()\ncph.check_assumptions(df, p_value_threshold=0.05)",
+      "reproducibility": {
+        "scriptVersion": "survival_cox_adjusted.py v3",
+        "randomSeed": 42,
+        "packages": [
+          "lifelines==0.27.8",
+          "pandas==2.2.1",
+          "numpy==1.26.4"
+        ],
+        "runtimeSeconds": 2.4
+      },
+      "exportFormats": [
+        "CSV",
+        "PNG",
+        "PDF report snippet"
+      ]
+    },
+    {
+      "id": "analysis_002",
+      "name": "Kaplan-Meier — PFS by IL-6 tertile",
+      "type": "Kaplan-Meier Survival",
+      "status": "completed",
+      "runAt": "2026-06-15T10:14:00Z",
+      "agent": "Stats Agent",
+      "scriptUsed": "survival_kaplan_meier.py",
+      "provenance": "Rulebook",
+      "researchQuestionId": "rq_001",
+      "interpretation": "Patients were split into IL-6 tertiles (low/mid/high). The high-IL-6 tertile showed clearly shorter progression-free survival than the low tertile, with separation emerging around 6 months and widening through 18 months. The log-rank test confirms this separation is unlikely due to chance (p = 0.003).",
+      "resultTable": {
+        "columns": [
+          "IL-6 tertile",
+          "n",
+          "Median PFS (months)",
+          "Events"
+        ],
+        "rows": [
+          [
+            "Low (<11.4 pg/mL)",
+            104,
+            14.8,
+            54
+          ],
+          [
+            "Mid (11.4–29.8 pg/mL)",
+            104,
+            11.2,
+            67
+          ],
+          [
+            "High (>29.8 pg/mL)",
+            104,
+            7.6,
+            73
+          ]
+        ]
+      },
+      "statisticalOutput": [
+        "Log-rank test: χ² = 11.6, df = 2, p = 0.003",
+        "Pairwise low vs. high: p = 0.001",
+        "Pairwise low vs. mid: p = 0.084 (not significant after correction)"
+      ],
+      "assumptionsChecked": [
+        {
+          "name": "Independent censoring",
+          "result": "pass",
+          "detail": "No evidence that censoring is related to IL-6 tertile (censoring pattern checked across groups)."
+        },
+        {
+          "name": "Sufficient sample per group",
+          "result": "pass",
+          "detail": "104 patients per tertile, adequate for stable Kaplan-Meier estimation."
+        }
+      ],
+      "warnings": [],
+      "codeUsed": "from lifelines import KaplanMeierFitter\nfrom lifelines.statistics import multivariate_logrank_test\n\nkmf = KaplanMeierFitter()\nfor tertile, group in df.groupby(\"il6_tertile\"):\n    kmf.fit(group[\"pfs_months\"], group[\"pfs_event\"], label=tertile)\n    kmf.plot_survival_function()\n\nresults = multivariate_logrank_test(\n    df[\"pfs_months\"], df[\"il6_tertile\"], df[\"pfs_event\"]\n)\nresults.print_summary()",
+      "reproducibility": {
+        "scriptVersion": "survival_kaplan_meier.py v2",
+        "packages": [
+          "lifelines==0.27.8",
+          "matplotlib==3.8.3"
+        ],
+        "runtimeSeconds": 1.1
+      },
+      "exportFormats": [
+        "PNG",
+        "SVG",
+        "PDF"
+      ]
+    },
+    {
+      "id": "analysis_001",
+      "name": "Descriptive statistics — baseline cohort",
+      "type": "Descriptive Statistics",
+      "status": "completed",
+      "runAt": "2026-05-15T09:00:00Z",
+      "agent": "Data Agent",
+      "scriptUsed": "clinical_baseline_table.py",
+      "provenance": "Deterministic computation",
+      "researchQuestionId": "rq_001",
+      "interpretation": "The cohort is broadly representative of the population described in the linked paper (mean age 63.4 vs. 64.1, similar sex distribution), supporting external validity of downstream comparisons.",
+      "resultTable": {
+        "columns": [
+          "Variable",
+          "Summary"
+        ],
+        "rows": [
+          [
+            "Age",
+            "63.4 ± 9.1 years"
+          ],
+          [
+            "Sex",
+            "58% male, 42% female"
+          ],
+          [
+            "Stage IV",
+            "71%"
+          ],
+          [
+            "IL-6 baseline",
+            "Median 18.2 pg/mL (IQR 11.4–29.8)"
+          ],
+          [
+            "CRP baseline",
+            "Median 6.1 mg/L (IQR 2.8–14.3)"
+          ]
+        ]
+      },
+      "statisticalOutput": [
+        "n = 312",
+        "No statistical testing performed — descriptive only"
+      ],
+      "assumptionsChecked": [],
+      "warnings": [],
+      "codeUsed": "import pandas as pd\n\nsummary = df.describe(include=\"all\").T\nsummary.to_csv(\"baseline_table.csv\")",
+      "reproducibility": {
+        "scriptVersion": "clinical_baseline_table.py v1",
+        "packages": [
+          "pandas==2.2.1"
+        ],
+        "runtimeSeconds": 0.3
+      },
+      "exportFormats": [
+        "CSV"
+      ]
+    },
+    {
+      "id": "analysis_004",
+      "name": "Cox Regression — CRP added to IL-6 model",
+      "type": "Cox Proportional Hazards",
+      "status": "running",
+      "runAt": "2026-06-17T16:05:00Z",
+      "agent": "Code Agent",
+      "scriptUsed": "survival_cox_adjusted.py",
+      "provenance": "New reasoning",
+      "researchQuestionId": "rq_002"
+    },
+    {
+      "id": "analysis_101",
+      "name": "Logistic Regression — PHQ-9 predicting poor glycemic control",
+      "type": "Logistic Regression",
+      "status": "queued",
+      "runAt": "2026-06-22T11:00:00Z",
+      "agent": "Stats Agent",
+      "scriptUsed": "logistic_regression.py",
+      "provenance": "New reasoning",
+      "researchQuestionId": "rq_101"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "artifact_001",
+      "title": "Baseline Characteristics",
+      "kind": "table",
+      "chartType": "Baseline characteristics table",
+      "paperId": "paper_001",
+      "questionId": "rq_001",
+      "analysisId": "analysis_001",
+      "status": "generated",
+      "generatedAt": "2026-05-15T09:00:00Z",
+      "usedVariables": [
+        "age",
+        "sex",
+        "stage_iv",
+        "il6_baseline",
+        "crp_baseline"
+      ],
+      "exportFormats": [
+        "CSV",
+        "Word",
+        "LaTeX"
+      ],
+      "tableConfig": {
+        "columns": [
+          "Variable",
+          "Summary"
+        ],
+        "decimals": 1,
+        "showPValues": false,
+        "showConfidenceIntervals": false
+      },
+      "resultColumns": [
+        "Variable",
+        "Summary"
+      ],
+      "resultRows": [
+        [
+          "Age",
+          "63.4 ± 9.1 years"
+        ],
+        [
+          "Sex",
+          "58% male, 42% female"
+        ],
+        [
+          "Stage IV",
+          "71%"
+        ],
+        [
+          "IL-6 baseline",
+          "Median 18.2 pg/mL (IQR 11.4–29.8)"
+        ],
+        [
+          "CRP baseline",
+          "Median 6.1 mg/L (IQR 2.8–14.3)"
+        ]
+      ],
+      "caption": "Table 1. Baseline characteristics of the analysis cohort (n = 312)."
+    },
+    {
+      "id": "artifact_002",
+      "title": "Kaplan-Meier — PFS by IL-6 Tertile",
+      "kind": "figure",
+      "chartType": "Kaplan-Meier curve",
+      "paperId": "paper_001",
+      "questionId": "rq_001",
+      "analysisId": "analysis_002",
+      "status": "publication_ready",
+      "generatedAt": "2026-06-15T10:18:00Z",
+      "usedVariables": [
+        "pfs_months",
+        "pfs_event",
+        "il6_baseline"
+      ],
+      "exportFormats": [
+        "PNG",
+        "SVG",
+        "PDF"
+      ],
+      "figureConfig": {
+        "xVariable": "pfs_months",
+        "yVariable": "survival probability",
+        "groupVariable": "il6_tertile",
+        "confidenceIntervals": true,
+        "theme": "Clinical (default)",
+        "legend": true,
+        "referenceLines": [
+          "Median survival markers"
+        ]
+      },
+      "kmPreview": [
+        {
+          "time": 0,
+          "survivalPct": 100,
+          "label": "Low"
+        },
+        {
+          "time": 7.6,
+          "survivalPct": 65,
+          "label": "Low"
+        },
+        {
+          "time": 14.8,
+          "survivalPct": 50,
+          "label": "Low"
+        },
+        {
+          "time": 24,
+          "survivalPct": 38,
+          "label": "Low"
+        }
+      ],
+      "caption": "Figure 1. Kaplan-Meier curves for progression-free survival stratified by baseline IL-6 tertile."
+    },
+    {
+      "id": "artifact_003",
+      "title": "Cox Regression Coefficients",
+      "kind": "table",
+      "chartType": "Regression coefficient table",
+      "paperId": "paper_001",
+      "questionId": "rq_001",
+      "analysisId": "analysis_003",
+      "status": "generated",
+      "generatedAt": "2026-06-16T14:32:00Z",
+      "usedVariables": [
+        "il6_baseline",
+        "age",
+        "sex",
+        "stage_iv"
+      ],
+      "exportFormats": [
+        "CSV",
+        "Word",
+        "LaTeX"
+      ],
+      "tableConfig": {
+        "columns": [
+          "Variable",
+          "HR",
+          "95% CI",
+          "p-value"
+        ],
+        "decimals": 2,
+        "showPValues": true,
+        "showConfidenceIntervals": true
+      },
+      "resultColumns": [
+        "Variable",
+        "HR",
+        "95% CI",
+        "p-value"
+      ],
+      "resultRows": [
+        [
+          "il6_baseline (log)",
+          1.42,
+          "1.11–1.82",
+          "0.006"
+        ],
+        [
+          "age",
+          1.01,
+          "0.99–1.03",
+          "0.241"
+        ],
+        [
+          "sex (male)",
+          1.08,
+          "0.79–1.47",
+          "0.625"
+        ],
+        [
+          "stage_iv",
+          1.64,
+          "1.12–2.40",
+          "0.011"
+        ]
+      ],
+      "caption": "Table 2. Cox regression coefficients, hazard ratios, and 95% confidence intervals."
+    },
+    {
+      "id": "artifact_004",
+      "title": "Forest Plot — Cox Regression Covariates",
+      "kind": "figure",
+      "chartType": "Forest plot",
+      "paperId": "paper_001",
+      "questionId": "rq_001",
+      "analysisId": "analysis_003",
+      "status": "publication_ready",
+      "generatedAt": "2026-06-16T14:45:00Z",
+      "usedVariables": [
+        "il6_baseline",
+        "age",
+        "sex",
+        "stage_iv"
+      ],
+      "exportFormats": [
+        "PNG",
+        "SVG"
+      ],
+      "figureConfig": {
+        "xVariable": "Hazard ratio",
+        "yVariable": "Covariate",
+        "confidenceIntervals": true,
+        "theme": "Clinical (default)",
+        "legend": false,
+        "referenceLines": [
+          "HR = 1 (null effect)"
+        ]
+      },
+      "forestPreview": [
+        {
+          "label": "il6_baseline (log)",
+          "hr": 1.42,
+          "ciLow": 1.11,
+          "ciHigh": 1.82
+        },
+        {
+          "label": "age",
+          "hr": 1.01,
+          "ciLow": 0.99,
+          "ciHigh": 1.03
+        },
+        {
+          "label": "sex (male)",
+          "hr": 1.08,
+          "ciLow": 0.79,
+          "ciHigh": 1.47
+        },
+        {
+          "label": "stage_iv",
+          "hr": 1.64,
+          "ciLow": 1.12,
+          "ciHigh": 2.4
+        }
+      ],
+      "caption": "Figure 2. Forest plot of hazard ratios from the adjusted Cox regression model."
+    }
+  ],
+  "questionReports": [
+    {
+      "questionId": "rq_001",
+      "paperId": "paper_001",
+      "status": "draft_in_progress",
+      "included": [
+        "Cox regression run (analysis_003)",
+        "Kaplan-Meier figure (artifact_002)",
+        "Baseline characteristics table (artifact_001)",
+        "Paper methods evidence",
+        "Dataset summary"
+      ],
+      "missing": [
+        "Appendix / supplementary materials"
+      ],
+      "sections": [
+        {
+          "id": "research_question",
+          "title": "Research Question",
+          "status": "drafted",
+          "body": "Are baseline serum IL-6 levels independently associated with progression-free survival after adjusting for age, sex, and disease stage?",
+          "claims": []
+        },
+        {
+          "id": "hypothesis",
+          "title": "Hypothesis",
+          "status": "drafted",
+          "body": "We hypothesized that higher baseline serum IL-6 is independently associated with shorter progression-free survival after adjusting for age, sex, and disease stage. The null hypothesis is that no such association exists once these covariates are accounted for.",
+          "claims": []
+        },
+        {
+          "id": "methods",
+          "title": "Methods",
+          "status": "drafted",
+          "body": "Following the approach described in Chen et al. (2024), we fit a multivariable Cox proportional hazards model with baseline serum IL-6 (log-transformed) as the primary exposure and progression-free survival as the outcome, adjusting for age, sex, and disease stage. Kaplan-Meier curves stratified by IL-6 tertile were generated as a complementary, non-parametric view of the same relationship.",
+          "claims": [
+            {
+              "id": "claim_methods_001",
+              "sectionId": "methods",
+              "text": "Following the approach described in Chen et al. (2024), we fit a multivariable Cox proportional hazards model...",
+              "sources": [
+                {
+                  "type": "paper",
+                  "refId": "paper_001",
+                  "label": "Chen et al. (2024), Methods, p. 3"
+                }
+              ],
+              "status": "supported"
+            }
+          ]
+        },
+        {
+          "id": "dataset",
+          "title": "Dataset",
+          "status": "drafted",
+          "body": "The analysis used the cleaned NSCLC cohort (n = 312 patients receiving first-line pembrolizumab monotherapy). ECOG performance status was missing in 22.4% of patients and PD-L1 TPS in 18.0%, consistent with a previously documented limitation relative to the source paper's full covariate set.",
+          "claims": [
+            {
+              "id": "claim_dataset_001",
+              "sectionId": "dataset",
+              "text": "The analysis used the cleaned NSCLC cohort (n = 312 patients receiving first-line pembrolizumab monotherapy).",
+              "sources": [
+                {
+                  "type": "analysis",
+                  "refId": "analysis_001",
+                  "label": "Descriptive statistics — baseline cohort"
+                }
+              ],
+              "status": "supported"
+            },
+            {
+              "id": "claim_dataset_002",
+              "sectionId": "dataset",
+              "text": "ECOG performance status was missing in 22.4% of patients and PD-L1 TPS in 18.0%...",
+              "sources": [
+                {
+                  "type": "rulebook",
+                  "refId": "dataset_001_v2",
+                  "label": "Data Understanding — Quality checks"
+                }
+              ],
+              "status": "supported"
+            }
+          ]
+        },
+        {
+          "id": "statistical_analysis",
+          "title": "Statistical Analysis",
+          "status": "drafted",
+          "body": "A multivariable Cox proportional hazards model was fit with IL-6 (log-transformed), age, sex, and stage_iv as covariates. Proportional hazards, multicollinearity (VIF), and events-per-variable ratio were checked and passed; mild non-linearity at high IL-6 values was flagged as a sensitivity-analysis consideration.",
+          "claims": [
+            {
+              "id": "claim_stats_001",
+              "sectionId": "statistical_analysis",
+              "text": "Proportional hazards, multicollinearity (VIF), and events-per-variable ratio were checked and passed.",
+              "sources": [
+                {
+                  "type": "analysis",
+                  "refId": "analysis_003",
+                  "label": "Cox Regression — IL-6 adjusted for age, sex, stage"
+                }
+              ],
+              "status": "supported"
+            }
+          ]
+        },
+        {
+          "id": "results",
+          "title": "Results",
+          "status": "drafted",
+          "body": "After adjusting for age, sex, and disease stage, each one-unit increase in log-transformed baseline IL-6 was associated with a 42% increase in the hazard of progression or death (HR 1.42, 95% CI 1.11–1.82). This association was statistically significant (p = 0.01). Kaplan-Meier curves stratified by IL-6 tertile showed clear separation, with the high-IL-6 tertile having a median PFS of 7.6 months versus 14.8 months in the low tertile (log-rank p = 0.003).",
+          "claims": [
+            {
+              "id": "claim_results_001",
+              "sectionId": "results",
+              "text": "After adjusting for age, sex, and disease stage, each one-unit increase in log-transformed baseline IL-6 was associated with a 42% increase in the hazard of progression or death (HR 1.42, 95% CI 1.11–1.82).",
+              "sources": [
+                {
+                  "type": "analysis",
+                  "refId": "analysis_003",
+                  "label": "Cox Regression — IL-6 adjusted for age, sex, stage"
+                },
+                {
+                  "type": "table",
+                  "refId": "artifact_003",
+                  "label": "Table 2: Cox Regression Coefficients"
+                },
+                {
+                  "type": "figure",
+                  "refId": "artifact_004",
+                  "label": "Figure 2: Forest Plot — Cox Regression Covariates"
+                }
+              ],
+              "status": "supported"
+            },
+            {
+              "id": "claim_results_002",
+              "sectionId": "results",
+              "text": "This association was statistically significant (p = 0.01).",
+              "sources": [
+                {
+                  "type": "analysis",
+                  "refId": "analysis_003",
+                  "label": "Cox Regression — IL-6 adjusted for age, sex, stage"
+                }
+              ],
+              "status": "warning",
+              "warningDetail": "Draft states p = 0.01, but the latest model output (analysis_003) reports p = 0.006. Update the draft text or confirm which value is current before exporting."
+            },
+            {
+              "id": "claim_results_003",
+              "sectionId": "results",
+              "text": "Kaplan-Meier curves stratified by IL-6 tertile showed clear separation, with the high-IL-6 tertile having a median PFS of 7.6 months versus 14.8 months in the low tertile (log-rank p = 0.003).",
+              "sources": [
+                {
+                  "type": "analysis",
+                  "refId": "analysis_002",
+                  "label": "Kaplan-Meier — PFS by IL-6 tertile"
+                },
+                {
+                  "type": "figure",
+                  "refId": "artifact_002",
+                  "label": "Figure 1: Kaplan-Meier — PFS by IL-6 Tertile"
+                }
+              ],
+              "status": "supported"
+            }
+          ]
+        },
+        {
+          "id": "figures",
+          "title": "Figures",
+          "status": "drafted",
+          "body": "Figure 1. Kaplan-Meier curves for progression-free survival stratified by baseline IL-6 tertile.\nFigure 2. Forest plot of hazard ratios from the adjusted Cox regression model.",
+          "claims": []
+        },
+        {
+          "id": "tables",
+          "title": "Tables",
+          "status": "drafted",
+          "body": "Table 1. Baseline characteristics of the analysis cohort (n = 312).\nTable 2. Cox regression coefficients, hazard ratios, and 95% confidence intervals.",
+          "claims": []
+        },
+        {
+          "id": "interpretation",
+          "title": "Interpretation",
+          "status": "drafted",
+          "body": "These results demonstrate that elevated baseline IL-6 causes faster disease progression in this cohort, independent of age, sex, and disease stage. The direction and approximate magnitude of the association are consistent with the source paper's reported finding (HR 1.38).",
+          "claims": [
+            {
+              "id": "claim_interp_001",
+              "sectionId": "interpretation",
+              "text": "These results demonstrate that elevated baseline IL-6 causes faster disease progression in this cohort, independent of age, sex, and disease stage.",
+              "sources": [
+                {
+                  "type": "analysis",
+                  "refId": "analysis_003",
+                  "label": "Cox Regression — IL-6 adjusted for age, sex, stage"
+                }
+              ],
+              "status": "warning",
+              "warningDetail": "This is a retrospective observational cohort study — the data support an association, not a causal claim. Consider rephrasing \"causes\" to \"is associated with.\""
+            }
+          ]
+        },
+        {
+          "id": "limitations",
+          "title": "Limitations",
+          "status": "drafted",
+          "body": "This analysis has several limitations consistent with the source dataset and paper: a retrospective, two-center observational design limits causal inference; ECOG performance status and PD-L1 TPS were unavailable and could not be included as covariates, unlike the linked paper's full model; IL-6 was measured at a single baseline timepoint; and PD-L1 TPS is missing in 18% of patients, which would need to be addressed (e.g. via multiple imputation) before any biomarker-interaction analysis.",
+          "claims": []
+        },
+        {
+          "id": "clinical_relevance",
+          "title": "Clinical Relevance",
+          "status": "drafted",
+          "body": "If replicated prospectively, baseline IL-6 could serve as a low-cost adjunct biomarker for risk-stratifying patients before first-line immunotherapy. The current effect size (HR 1.42) is statistically robust in this cohort, but its clinical utility — e.g. a concrete IL-6 threshold that would change a treatment decision — has not yet been established.",
+          "claims": []
+        },
+        {
+          "id": "reproducibility_notes",
+          "title": "Reproducibility Notes",
+          "status": "drafted",
+          "body": "Cox model: survival_cox_adjusted.py v3 (lifelines==0.27.8, pandas==2.2.1, numpy==1.26.4), random seed 42, runtime 2.4s. Kaplan-Meier: survival_kaplan_meier.py v2 (lifelines==0.27.8, matplotlib==3.8.3), runtime 1.1s. Rulebook: pfs_months mapped as the survival time variable; pfs_event mapped as the event/censoring indicator; Cox regression adjusted for age, sex, and stage_iv for all survival endpoints in this project.",
+          "claims": [
+            {
+              "id": "claim_repro_001",
+              "sectionId": "reproducibility_notes",
+              "text": "Cox model: survival_cox_adjusted.py v3 (lifelines==0.27.8, pandas==2.2.1, numpy==1.26.4), random seed 42, runtime 2.4s.",
+              "sources": [
+                {
+                  "type": "analysis",
+                  "refId": "analysis_003",
+                  "label": "Cox Regression — IL-6 adjusted for age, sex, stage"
+                }
+              ],
+              "status": "supported"
+            }
+          ]
+        },
+        {
+          "id": "appendix",
+          "title": "Appendix",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        }
+      ]
+    },
+    {
+      "questionId": "rq_002",
+      "paperId": "paper_001",
+      "status": "not_started",
+      "included": [],
+      "missing": [
+        "Research Question",
+        "Hypothesis",
+        "Methods",
+        "Dataset",
+        "Statistical Analysis",
+        "Results",
+        "Figures",
+        "Tables",
+        "Interpretation",
+        "Limitations",
+        "Clinical Relevance",
+        "Reproducibility Notes",
+        "Appendix"
+      ],
+      "sections": [
+        {
+          "id": "research_question",
+          "title": "Research Question",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "hypothesis",
+          "title": "Hypothesis",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "methods",
+          "title": "Methods",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "dataset",
+          "title": "Dataset",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "statistical_analysis",
+          "title": "Statistical Analysis",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "results",
+          "title": "Results",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "figures",
+          "title": "Figures",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "tables",
+          "title": "Tables",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "interpretation",
+          "title": "Interpretation",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "limitations",
+          "title": "Limitations",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "clinical_relevance",
+          "title": "Clinical Relevance",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "reproducibility_notes",
+          "title": "Reproducibility Notes",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "appendix",
+          "title": "Appendix",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        }
+      ]
+    },
+    {
+      "questionId": "rq_101",
+      "paperId": "paper_101",
+      "status": "not_started",
+      "included": [],
+      "missing": [
+        "Research Question",
+        "Hypothesis",
+        "Methods",
+        "Dataset",
+        "Statistical Analysis",
+        "Results",
+        "Figures",
+        "Tables",
+        "Interpretation",
+        "Limitations",
+        "Clinical Relevance",
+        "Reproducibility Notes",
+        "Appendix"
+      ],
+      "sections": [
+        {
+          "id": "research_question",
+          "title": "Research Question",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "hypothesis",
+          "title": "Hypothesis",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "methods",
+          "title": "Methods",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "dataset",
+          "title": "Dataset",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "statistical_analysis",
+          "title": "Statistical Analysis",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "results",
+          "title": "Results",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "figures",
+          "title": "Figures",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "tables",
+          "title": "Tables",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "interpretation",
+          "title": "Interpretation",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "limitations",
+          "title": "Limitations",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "clinical_relevance",
+          "title": "Clinical Relevance",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "reproducibility_notes",
+          "title": "Reproducibility Notes",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        },
+        {
+          "id": "appendix",
+          "title": "Appendix",
+          "status": "empty",
+          "body": "",
+          "claims": []
+        }
+      ]
+    }
+  ],
+  "validationChecks": [
+    {
+      "id": "check_001",
+      "questionId": "rq_001",
+      "label": "Results text matches latest analysis output",
+      "result": "failed",
+      "detail": "The p-value claim in Results (p = 0.01) does not match analysis_003's reported p = 0.006.",
+      "claimId": "claim_results_002"
+    },
+    {
+      "id": "check_002",
+      "questionId": "rq_001",
+      "label": "Figure 1 generated from a real analysis run",
+      "result": "passed",
+      "detail": "Figure 1 (artifact_002) was generated from analysis_002 — provenance confirmed."
+    },
+    {
+      "id": "check_003",
+      "questionId": "rq_001",
+      "label": "No unsupported causal claims",
+      "result": "warning",
+      "detail": "Interpretation states IL-6 \"causes\" faster progression — this is an observational study and should be phrased as an association.",
+      "claimId": "claim_interp_001"
+    },
+    {
+      "id": "check_004",
+      "questionId": "rq_001",
+      "label": "Methods match covariates used in source paper",
+      "result": "warning",
+      "detail": "ECOG performance status and PD-L1 TPS are in the source paper's model but missing from this dataset and excluded here."
+    },
+    {
+      "id": "check_005",
+      "questionId": "rq_001",
+      "label": "Limitations section present",
+      "result": "passed",
+      "detail": "Limitations section is drafted and covers design, missing covariates, and measurement timing."
+    },
+    {
+      "id": "check_006",
+      "questionId": "rq_001",
+      "label": "Latest dataset version used",
+      "result": "passed",
+      "detail": "Analysis was run on the cleaned dataset (dataset_001_v2), not the raw upload."
+    },
+    {
+      "id": "check_007",
+      "questionId": "rq_001",
+      "label": "Paper citations present",
+      "result": "passed",
+      "detail": "Methods and Interpretation both cite the source paper (Chen et al., 2024)."
+    },
+    {
+      "id": "check_008",
+      "questionId": "rq_001",
+      "label": "Rulebook / provenance included",
+      "result": "passed",
+      "detail": "Reproducibility Notes section includes script versions, package versions, and rulebook variable mappings."
+    },
+    {
+      "id": "check_009",
+      "questionId": "rq_001",
+      "label": "Clinical vs. statistical significance distinguished",
+      "result": "warning",
+      "detail": "Clinical Relevance notes the effect is \"statistically robust\" but does not yet state a concrete clinical decision threshold — consider clarifying this distinction."
+    },
+    {
+      "id": "check_010",
+      "questionId": "rq_001",
+      "label": "All figures and tables have captions",
+      "result": "passed",
+      "detail": "Both figures and both tables have captions assigned in the Artifacts tab."
+    },
+    {
+      "id": "check_101",
+      "questionId": "rq_002",
+      "label": "Results text matches latest analysis output",
+      "result": "warning",
+      "detail": "analysis_004 (the combined IL-6 + CRP model) is still running — no results exist yet to validate against."
+    }
+  ],
+  "rulebookEntries": [
+    {
+      "id": "rule_0041",
+      "projectId": "project_001",
+      "scope": "project",
+      "text": "pfs_months is the survival time variable for this project",
+      "confidence": "high",
+      "source": "Memory Agent — auto-detected from dataset + paper"
+    },
+    {
+      "id": "rule_0042",
+      "projectId": "project_001",
+      "scope": "project",
+      "text": "pfs_event is the censoring indicator (1=event, 0=censored)",
+      "confidence": "high",
+      "source": "User confirmed"
+    },
+    {
+      "id": "rule_0043",
+      "projectId": "project_001",
+      "scope": "project",
+      "text": "Prefer Cox regression adjusted for age, sex, and stage_iv for all survival endpoints",
+      "confidence": "high",
+      "source": "User approved recommendation"
+    },
+    {
+      "id": "rule_0044",
+      "projectId": "project_001",
+      "scope": "dataset",
+      "text": "Do not use t-test for stage_iv — it is an ordinal variable",
+      "confidence": "high",
+      "source": "Critic Agent flag"
+    }
+  ]
+}
